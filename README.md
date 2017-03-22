@@ -35,7 +35,7 @@ This application will launch before June second week with android OS(iOS version
       - github - [Ranicorn](https://github.com/Ranicorn)
       - E-mail - wlfks369@gmail.com
 - Concept Director
-  - Main Concept Director  
+  - Main Concept Director 
     - **YU JEE MIN**  
       - github - [Yujeemin](https://github.com/Yujeemin)  
       - E-mail - mo_om1012@naver.com  
