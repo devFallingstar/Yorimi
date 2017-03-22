@@ -34,4 +34,7 @@ This application will launch before June second week with android OS(iOS version
     - **Not added(JJR)**
 - Concept Director
   - Main Concept Director
-    - **Not added(YJM)**
+    - **YU JEE MIN**
+      - github - [Yujeemin](https://github.com/Yujeemin)
+      - E-mail - mo_om1012@naver.com
+      -
