@@ -37,4 +37,3 @@ This application will launch before June second week with android OS(iOS version
     - **YU JEE MIN**
       - github - [Yujeemin](https://github.com/Yujeemin)
       - E-mail - mo_om1012@naver.com
-      -
