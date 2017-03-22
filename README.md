@@ -31,7 +31,9 @@ This application will launch before June second week with android OS(iOS version
       - E-mail - stardung86@gmail.com
 - Design UI/UX
   - Main Design Director
-    - **Not added(JJR)**
+    - **JEONG JI RAN**
+      - github - [Ranicorn](https://github.com/Ranicorn)
+      - E-mail - wlfks369@gmail.com
 - Concept Director
   - Main Concept Director
     - **YU JEE MIN**
