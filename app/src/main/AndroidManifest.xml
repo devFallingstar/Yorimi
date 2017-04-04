@@ -18,6 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MarketAddActivity" />
+        <activity android:name=".RuleAddActivity.MainRuleAddActivity" />
+        <activity android:name=".RuleAddActivity.OptionalRuleAddActivity"></activity>
     </application>
 
 </manifest>

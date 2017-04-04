@@ -4,4 +4,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="name_hint">가게 이름을 입력하세요</string>
+    <string name="ThemeColor">#002062</string>
+    <string name="feeInit">초기 시간당 요금제</string>
+    <string name="feeAdd">추가 시간당 요금제</string>
+    <string name="feeDescInit">\'첫 30분 3000원\'과 같은 초기 시간 요금제가 존재하는 경우 선택해주세요.</string>
+    <string name="feeDescAdd">\'매 10분당 1000원\'과 같은 추가 시간 요금제만 존재하는 경우 선택해주세요.</string>
 </resources>
