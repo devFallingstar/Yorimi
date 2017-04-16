@@ -52,11 +52,11 @@
                         android:text="첫 "
                         android:textAlignment="textEnd"/>
                     <EditText
+                        android:id="@+id/time1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:text="30"/>
+                        android:layout_weight="1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -64,11 +64,11 @@
                         android:layout_weight="1"
                         android:text="분까지 "/>
                     <EditText
+                        android:id="@+id/cost1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:text="3000"/>
+                        android:layout_weight="1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,40 +116,46 @@
                     android:layout_height="wrap_content"
                     android:text="@string/feeDescAdd"
                     android:layout_margin="5dp"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="매 "
-                        android:textAlignment="textEnd"/>
+                        android:textAlignment="textEnd" />
+
                     <EditText
+                        android:id="@+id/time2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:text="10"/>
+                        android:layout_weight="1" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="분마다 "/>
+                        android:text="분마다 " />
+
                     <EditText
+                        android:id="@+id/cost2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:text="1000"/>
+                        android:layout_weight="1" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="원"/>
+                        android:text="원" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

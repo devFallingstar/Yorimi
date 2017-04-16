@@ -2,22 +2,121 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="/Users/redsnow/Desktop/eye/Gachon/2017Gachon1_2/M.P(Mobile_Programming)/Yorimi/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/37bf622eb7c3642b75a69bfe93b8f12c188d68c6/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
-        <dex dex="/Users/redsnow/Desktop/eye/Gachon/2017Gachon1_2/M.P(Mobile_Programming)/Yorimi/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_45fd13cb928141e8091314e852e713256cb436f8/classes.dex" />
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_dd6efb84072856007a7a54bb767f62ca68282fde.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/redsnow/Desktop/eye/Gachon/2017Gachon1_2/M.P(Mobile_Programming)/Yorimi/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/9a77cace2cdcf8aa6161794b0cad70e01b8e54c6/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="098d5f82f37b64415ce9cbab9c27675b20566450">
-        <dex dex="/Users/redsnow/Desktop/eye/Gachon/2017Gachon1_2/M.P(Mobile_Programming)/Yorimi/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0b27aada9fb3073efc5e0dc4440c39ae1a8cb9e3/classes.dex" />
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_59cd71428694c126e63d0a0f57795fa771272e51.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/58c55bf627366c070019896f4d8260b68b23414e/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_9da343e0d17517b95abd2c425703ca22c1576fac.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/53f1cdeb7de30261e895e005c0b6e3931ce4ef06/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_25cc2cdfba6cec5d04ff7745ca8dc5ee8717e43f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/e05ca3951606b5a4c6c9e986095741ffd4f29d4c/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_ecb9fdf8d1197adde8a64d784167427ae1cc5abf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/a9ef3933e2b16a90e7e6fed4de03f4f5834e093a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_445b34b176c09e06bc05cb0188ec154dea01e734.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/675a4e3774b196156b084c977772ebc9388d2a9b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_cb81c627bc54188e356fa0e5edffcf2b120b1b41.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/ae980728fdeda2720bf921b4a9c0611d0dd72b8f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_248f177aa07c2a6b06745d1ab6f3f9c8ba65b3cc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/e2aaa77497816b5cb022c67908e95072a6c9e95c/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_0d99685c0bae21f4c95d92314d74c7a840e1695f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/support-annotations-25.3.1_6d855fb106d855b6af689edabc1b67e776f7fc69.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/c1747a1a9ff2b53d80d37d1df2f2daa106be9d0b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_cfb9cde9eedfaede0a7ba57e8b1828ea37c71e39.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/665f5c290bfd43c55f88740934caa9d5f666832d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_9af2de47f3da029ebad7b7ff2d9eb9dfc0d185a9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/JM/.android/build-cache/238c93df41640a75a3726801070065ba20e90ede/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="/Users/JM/AndroidStudioProjects/Yorimi/app/build/intermediates/pre-dexed/debug/classes_8fbd8582b47605b521e2ef1f375d7604a21ea06b.jar" />
     </item>
 
 </items>

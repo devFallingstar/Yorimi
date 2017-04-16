@@ -9,12 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private FloatingActionButton fBtn;
     private BottomNavigationView bNavView;
+
+    String typeStr;
+    int timeInt, costInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +52,31 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO : Show 'activity market add'
                 Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
-                startActivity(marketAddIntent);
+                startActivityForResult(marketAddIntent, 3);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 3:
+                setValues(data.getStringExtra("ruleType"), Integer.parseInt(data.getStringExtra("ruleTime")), Integer.parseInt(data.getStringExtra("ruleCost")));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void setValues(String type, int time, int cost){
+        typeStr = type;
+        timeInt = time;
+        costInt = cost;
+        LolSoGoodFunction();
+    }
+    private void LolSoGoodFunction(){
+        Toast.makeText(MainActivity.this, typeStr + "    " + timeInt + "    " + costInt + "    ",Toast.LENGTH_SHORT).show();
     }
 
 }
