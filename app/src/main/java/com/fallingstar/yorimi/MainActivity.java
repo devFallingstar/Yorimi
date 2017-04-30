@@ -14,78 +14,103 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listview;
-    ListViewAdapter adapter;
-    private TextView mTextMessage;
+    /*
+    Define variables.
+     */
+    private ListView listview;
+    private ListViewAdapter adapter;
     private FloatingActionButton fBtn;
     private BottomNavigationView bNavView;
-    String typeStr;
-    int timeInt, costInt;
 
+    /*
+    purpose : start main application activity and init.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        adapter = new ListViewAdapter();
-
-        listview = (ListView)findViewById(R.id.listview);
+        listview = (ListView) findViewById(R.id.listview);
         listview.setAdapter(adapter);
-
         bNavView = (BottomNavigationView) findViewById(R.id.bottomNav);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
+
+        adapter = new ListViewAdapter();
 
         initWidgets();
     }
 
+    /*
+    purpose : Initiate all widgets that should contain listener.
+    */
     private void initWidgets() {
+        /*
+        Segments changing(Tabbar method).
+         */
         bNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
-                        mTextMessage.setText(R.string.title_home);
                         return true;
                     case R.id.navigation_dashboard:
-                        mTextMessage.setText(R.string.title_dashboard);
                         return true;
                 }
                 return false;
             }
         });
-
+        /*
+        Floating button with MarketAddActivity intent.
+         */
         fBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO : Show 'activity market add'
                 Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
                 startActivityForResult(marketAddIntent, 3);
             }
         });
     }
 
+    /*
+    purpose : when the marketAddActivity return the intent with result code,
+                check its boolean value that represent a type of main rule.
+                If the main rule is type of 'until first time n',
+                then call setValues(String, int, int),
+                and if the main rule is type of 'every time n',
+                then call setValues(String, int, int, int, int).
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode){
+        switch (resultCode) {
             case RESULT_OK:
-                setValues(data.getStringExtra("ruleType"), Integer.parseInt(data.getStringExtra("ruleTime")), Integer.parseInt(data.getStringExtra("ruleCost")));
+                Bundle mainBundle = data.getExtras();
+                if (mainBundle.getBoolean("isMainRuleAdditional")) {
+                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")));
+                } else {
+                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")));
+                }
                 break;
             default:
                 break;
         }
     }
 
-    public void setValues(String type, int time, int cost){
-        typeStr = type;
-        timeInt = time;
-        costInt = cost;
-        LolSoGoodFunction();
-        adapter.addItem("HEllo", "WTF");
+    /*
+    purpose : Add the rule with only main rule,
+                to custom listView that represent all of markets user added.
+     */
+    private void setValues(String name, int time, int cost) {
+        adapter.addItem(name, "매 " + time + "분 마다 " + cost + "원");
         adapter.notifyDataSetChanged();
     }
-    private void LolSoGoodFunction(){
-        Toast.makeText(MainActivity.this, typeStr + "    " + timeInt + "    " + costInt + "    ",Toast.LENGTH_SHORT).show();
-    }
 
+    /*
+    purpose : Add the rule with main rule and optional rule,
+                to custom listView that represent all of markets user added.
+     */
+    private void setValues(String name, int mainTime, int maincost, int optTime, int optCost) {
+        adapter.addItem(name, "첫 " + mainTime + "분 까지 " + maincost + "원, 매 " + optTime + "분 마다 " + optCost + "원");
+        adapter.notifyDataSetChanged();
+    }
 }
