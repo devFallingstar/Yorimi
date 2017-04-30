@@ -17,8 +17,9 @@ public class MarketAddActivity extends AppCompatActivity {
 
     TextView lblMainRule, lblOptionalRule;
     Button SubmitBtn;
-
     String ruleType, ruleTime, ruleCost;
+    Bundle mainBundle = new Bundle();
+    Bundle optionalBundle = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,7 +29,7 @@ public class MarketAddActivity extends AppCompatActivity {
 
         lblMainRule = (TextView)findViewById(R.id.lblMainRule);
         lblOptionalRule = (TextView)findViewById(R.id.lblOptionalRule);
-        SubmitBtn=(Button)findViewById(R.id.SubmitBtn);
+        SubmitBtn = (Button)findViewById(R.id.SubmitBtn);
 
         initWidgets();
     }
@@ -53,12 +54,12 @@ public class MarketAddActivity extends AppCompatActivity {
         SubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("ruleType", ruleType);
-                intent.putExtra("ruleTime", ruleTime);
-                intent.putExtra("ruleCost", ruleCost);
+                Intent resultIntent = new Intent();
 
-                setResult(0, intent);
+                resultIntent.putExtras(mainBundle);
+                resultIntent.putExtras(optionalBundle);
+
+                setResult(RESULT_OK, resultIntent);
 
                 finish();
             }
@@ -70,20 +71,36 @@ public class MarketAddActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case 1:
-                Log.e("WOW", data.getStringExtra("RuleType"));
-                ruleType = data.getStringExtra("RuleType");
-                ruleTime = data.getStringExtra("Time");
-                ruleCost = data.getStringExtra("Cost");
+                if(resultCode == RESULT_OK){
+                    boolean isMainOnly = data.getBooleanExtra("isOnlyMain", true);
+                    ruleType = data.getStringExtra("RuleType");
+                    ruleTime = data.getStringExtra("Time");
+                    ruleCost = data.getStringExtra("Cost");
 
-                lblMainRule.setText("RuleType: "+ruleType+", Time: "+ruleTime+", Cost:"+ruleCost);
-                Log.e("OMFG", "ASDASDASDASD");
+                    mainBundle.putString("ruleType", ruleType);
+                    mainBundle.putString("ruleTime", ruleTime);
+                    mainBundle.putString("ruleCost", ruleCost);
+                    lblMainRule.setText("Main RuleType: "+ruleType+", Time: "+ruleTime+", Cost:"+ruleCost);
+                    if (!isMainOnly){
+                        lblOptionalRule.setEnabled(false);
+                    }else{
+                        lblOptionalRule.setEnabled(true);
+                    }
+                }
 
                 break;
             case 2:
-                String option = data.getStringExtra("RuleType");
-                String time2 = data.getStringExtra("Time");
-                String cost2 = data.getStringExtra("Cost");
-                lblOptionalRule.setText("RuleType: "+option+", Time: "+time2+", Cost:"+cost2);
+                if(resultCode == RESULT_OK){
+                    ruleType = data.getStringExtra("RuleType");
+                    ruleTime = data.getStringExtra("Time");
+                    ruleCost = data.getStringExtra("Cost");
+
+                    optionalBundle.putString("ruleType", ruleType);
+                    optionalBundle.putString("ruleTime", ruleTime);
+                    optionalBundle.putString("ruleCost", ruleCost);
+                    lblOptionalRule.setText("Optional RuleType: "+ruleType+", Time: "+ruleTime+", Cost:"+ruleCost);
+                }
+
                 break;
             default:
                 break;

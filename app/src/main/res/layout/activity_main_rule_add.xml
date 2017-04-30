@@ -16,6 +16,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <RadioButton
+                android:id="@+id/radMainRule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"/>
@@ -91,6 +92,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <RadioButton
+                android:id="@+id/radOptionalRule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"/>

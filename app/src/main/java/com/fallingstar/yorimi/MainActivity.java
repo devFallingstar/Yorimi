@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ListView listview;
+        ListViewAdapter adapter;
+
+        adapter = new ListViewAdapter();
+
+        listview = (ListView)findViewById(R.id.listview);
+        listview.setAdapter(adapter);
 
         bNavView = (BottomNavigationView) findViewById(R.id.bottomNav);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
@@ -60,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 3:
+        switch (resultCode){
+            case RESULT_OK:
                 setValues(data.getStringExtra("ruleType"), Integer.parseInt(data.getStringExtra("ruleTime")), Integer.parseInt(data.getStringExtra("ruleCost")));
                 break;
             default:

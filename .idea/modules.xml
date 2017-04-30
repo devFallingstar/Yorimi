@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Yorimi.iml" filepath="$PROJECT_DIR$/Yorimi.iml" />
+<<<<<<< HEAD
+      <module fileurl="file://$PROJECT_DIR$/AndroidOS.iml" filepath="$PROJECT_DIR$/AndroidOS.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/MobileProgramming.iml" filepath="$PROJECT_DIR$/MobileProgramming.iml" />
+>>>>>>> 50f522c... Add ListView for main_activity
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

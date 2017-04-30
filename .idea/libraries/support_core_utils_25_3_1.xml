@@ -1,8 +1,13 @@
 <component name="libraryTable">
   <library name="support-core-utils-25.3.1">
     <CLASSES>
-      <root url="file://$USER_HOME$/.android/build-cache/37bf622eb7c3642b75a69bfe93b8f12c188d68c6/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/37bf622eb7c3642b75a69bfe93b8f12c188d68c6/output/jars/classes.jar!/" />
+<<<<<<< HEAD
+      <root url="jar://$USER_HOME$/.android/build-cache/c845710fd06c2952a3a1810e82e502a7f4df0eb7/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/c845710fd06c2952a3a1810e82e502a7f4df0eb7/output/res" />
+=======
+      <root url="file://$USER_HOME$/.android/build-cache/928a55c2c36e1fca55f53b7abb90b5a77a910409/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/928a55c2c36e1fca55f53b7abb90b5a77a910409/output/jars/classes.jar!/" />
+>>>>>>> 50f522c... Add ListView for main_activity
     </CLASSES>
     <JAVADOC />
     <SOURCES>

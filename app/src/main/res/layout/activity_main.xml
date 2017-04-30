@@ -11,18 +11,22 @@
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="30dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="보드게임"
-            android:textSize="30sp"
-            tools:ignore="HardcodedText" />
+       <ScrollView
+           android:id="@+id/scrollView"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
 
+           <ListView
+               android:id="@+id/listview"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
+
+       </ScrollView>
+    <!--일단 여기 스크롤뷰 넣었는데 여기 넣어도 되는거니??-->
+        <!--넣으면 안되는 거면 나중에 고치지 뭐-->
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton

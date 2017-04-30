@@ -1,8 +1,13 @@
 <component name="libraryTable">
   <library name="transition-25.3.1">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/e05ca3951606b5a4c6c9e986095741ffd4f29d4c/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/e05ca3951606b5a4c6c9e986095741ffd4f29d4c/output/res" />
+<<<<<<< HEAD
+      <root url="jar://$USER_HOME$/.android/build-cache/803058a076c366224dc6640bf934148beeeb5c69/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/803058a076c366224dc6640bf934148beeeb5c69/output/res" />
+=======
+      <root url="jar://$USER_HOME$/.android/build-cache/853e90c99dba9a16f2580b3340049d091d6e2edd/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/853e90c99dba9a16f2580b3340049d091d6e2edd/output/res" />
+>>>>>>> 50f522c... Add ListView for main_activity
     </CLASSES>
     <JAVADOC />
     <SOURCES>
