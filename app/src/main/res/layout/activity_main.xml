@@ -14,36 +14,33 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-       <ScrollView
-           android:id="@+id/scrollView"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-           <ListView
-               android:id="@+id/listview"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"/>
+            <ListView
+                android:id="@+id/listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </ScrollView>
 
-       </ScrollView>
-    <!--일단 여기 스크롤뷰 넣었는데 여기 넣어도 되는거니??-->
-        <!--넣으면 안되는 거면 나중에 고치지 뭐-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addMarketBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="7dp"
+            android:clickable="true"
+            app:backgroundTint="@android:color/background_light"
+            app:borderWidth="5dp"
+            app:elevation="5dp"
+            app:fabSize="normal"
+            app:rippleColor="@color/colorPrimaryDark"
+            app:srcCompat="@mipmap/add"
+            tools:ignore="RtlHardcoded" />
     </FrameLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addMarketBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|right"
-        android:clickable="true"
-        android:layout_margin="7dp"
-        app:backgroundTint="@android:color/background_light"
-        app:borderWidth="5dp"
-        app:elevation="5dp"
-        app:fabSize="normal"
-        app:rippleColor="@color/colorPrimaryDark"
-        app:srcCompat="@mipmap/add"
-        tools:ignore="RtlHardcoded"
-        />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNav"
