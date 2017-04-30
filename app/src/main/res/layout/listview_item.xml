@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:padding="10dp">
 
     <RelativeLayout
@@ -10,12 +11,11 @@
         android:layout_weight="4"
         android:orientation="horizontal">
 
-
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView1"
@@ -39,23 +39,23 @@
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/start_end_button"
             android:text="Start"
             android:textAlignment="center"
             android:textColor="#002060"
             android:textSize="17dp"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
     <View
-   android:layout_marginTop="10dp"
-   android:height="1dp"
-   android:layout_height="wrap_content"
-   android:layout_width="match_parent"
-   android:background="#d0cece"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:height="1dp"
+        android:background="#d0cece" />
 
 </LinearLayout>
