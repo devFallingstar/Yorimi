@@ -23,7 +23,6 @@ public class OptionalRuleAddActivity extends AppCompatActivity {
         timeTxt = (EditText)findViewById(R.id.time);
         costTxt = (EditText)findViewById(R.id.cost);
 
-
         SubmitBtn = (Button) findViewById(R.id.SubmitBtn);
         initWidgets();
     }
@@ -38,7 +37,7 @@ public class OptionalRuleAddActivity extends AppCompatActivity {
                     intent.putExtra("RuleType", "optional");
                     intent.putExtra("Time", timeStr);
                     intent.putExtra("Cost", costStr);
-                    setResult(0, intent);
+                    setResult(RESULT_OK, intent);
                     finish();
 
 //                Intent intent = new Intent(OptionalRuleAddActivity.this, MarketAddActivity.class);

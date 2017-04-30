@@ -3,12 +3,11 @@
 
     <item
         is-multidex="true"
-<<<<<<< HEAD
         jar="/Users/redsnow/Desktop/eye/Gachon/2017Gachon1_2/M.P(Mobile_Programming)/Yorimi/AndroidOS/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="b81170d5312e5588e8851b47b349279a224d6165">
+        sha1="402a7f77a84ed58d5ca251fc608b1c64ce9b1241">
         <dex dex="/Users/redsnow/Desktop/eye/Gachon/2017Gachon1_2/M.P(Mobile_Programming)/Yorimi/AndroidOS/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_e12ed73bdb15d000484f8748c3e7f7ff1ec7b014/classes.dex" />
     </item>
     <item
@@ -19,6 +18,7 @@
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
         <dex dex="/Users/redsnow/Desktop/eye/Gachon/2017Gachon1_2/M.P(Mobile_Programming)/Yorimi/AndroidOS/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_3d23d24be930648aa8341f428cd8cec48a31627c/classes.dex" />
+<<<<<<< HEAD
 =======
         jar="C:\Users\Jiran\AndroidStudioProjects\MobileProgramming\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
@@ -36,6 +36,8 @@
         sha1="7bf683f5ffea04f58d93f95e9ea2d01c17c7772f">
         <dex dex="C:\Users\Jiran\AndroidStudioProjects\MobileProgramming\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_8ca6cfed312b997afa3003c16321f11d4f1a183d\classes.dex" />
 >>>>>>> 50f522c... Add ListView for main_activity
+=======
+>>>>>>> 3a89121... Modify bugs for listview addItem by refresh adapter and fix a typo in item.xml. Also fix some minor bugs.
     </item>
 
 </items>

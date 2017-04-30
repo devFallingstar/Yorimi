@@ -14,10 +14,11 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    ListView listview;
+    ListViewAdapter adapter;
     private TextView mTextMessage;
     private FloatingActionButton fBtn;
     private BottomNavigationView bNavView;
-
     String typeStr;
     int timeInt, costInt;
 
@@ -25,9 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ListView listview;
-        ListViewAdapter adapter;
 
         adapter = new ListViewAdapter();
 
@@ -83,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         timeInt = time;
         costInt = cost;
         LolSoGoodFunction();
+        adapter.addItem("HEllo", "WTF");
+        adapter.notifyDataSetChanged();
     }
     private void LolSoGoodFunction(){
         Toast.makeText(MainActivity.this, typeStr + "    " + timeInt + "    " + costInt + "    ",Toast.LENGTH_SHORT).show();

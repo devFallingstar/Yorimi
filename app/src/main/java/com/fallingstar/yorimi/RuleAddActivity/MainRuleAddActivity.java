@@ -17,7 +17,6 @@ public class MainRuleAddActivity extends AppCompatActivity {
     Button SubmitBtn;
     EditText timeTxt1, costTxt1;
     EditText timeTxt2, costTxt2;
-    RadioGroup ruleRadGroup;
     RadioButton mainRad, optionalRad;
     boolean isOnlyMain = true;
 
@@ -35,8 +34,6 @@ public class MainRuleAddActivity extends AppCompatActivity {
         mainRad = (RadioButton)findViewById(R.id.radMainRule);
         optionalRad = (RadioButton)findViewById(R.id.radOptionalRule);
 
-        ruleRadGroup.addView(mainRad);
-        ruleRadGroup.addView(optionalRad);
         initWidgetsListener();
     }
     private void initWidgetsListener() {
@@ -65,17 +62,12 @@ public class MainRuleAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("RAD", "MAINRAD");
-                ruleRadGroup.check(mainRad);
-                ruleRad
-                optionalRad.setSelected(false);
                 isOnlyMain = true;
             }
         });
         optionalRad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainRad.setSelected(false);
-                optionalRad.setSelected(true);
                 isOnlyMain = false;
             }
         });
