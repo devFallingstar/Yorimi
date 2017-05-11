@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fallingstar.yorimi.Helper.DatabaseHelper;
 import com.fallingstar.yorimi.RuleAddActivity.MainRuleAddActivity;
 import com.fallingstar.yorimi.RuleAddActivity.OptionalRuleAddActivity;
 
@@ -24,6 +25,8 @@ public class MarketAddActivity extends AppCompatActivity {
     private String ruleName, ruleTime, ruleCost;
     private Bundle mainBundle = new Bundle();
     private boolean isMainRuleAdditional = true;
+
+    final DatabaseHelper yoribi = new DatabaseHelper(getApplicationContext());
 
     /*
     purpose : start MarketAddActivity and init.
@@ -172,6 +175,8 @@ public class MarketAddActivity extends AppCompatActivity {
                     lblOptionalRule.setText("");
                     lblOptionalRule.setHint("필수 요금제가 이미 추가 요금제입니다");
                     lblOptionalRule.setEnabled(false);
+
+                    yoribi.insert(titleTxt.getText().toString(), Integer.parseInt(ruleTime), Integer.parseInt(ruleCost), 0, 0, 0, 0);
                 }
                 break;
             /*

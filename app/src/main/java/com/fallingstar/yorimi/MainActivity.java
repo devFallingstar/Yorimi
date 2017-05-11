@@ -47,13 +47,10 @@ public class MainActivity extends AppCompatActivity {
         int count = yoribi.getCount();
         for(int i = 0; i < count; i++)
         {
-            String str = "첫 "+yoribi.getMainRuleTime(i)+"분마다 "+yoribi.getMainRulePrice(i)+"원";
             if(yoribi.getoptRuleBool(i) == 1)
-            {
-//                str+= ", 매"
-            }
-
-
+                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i).toString()), Integer.parseInt(yoribi.getMainRulePrice(i).toString()), Integer.parseInt(yoribi.getoptRuleTime(i).toString()), Integer.parseInt(yoribi.getoptRulePrice(i).toString()));
+            else
+                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i).toString()), Integer.parseInt(yoribi.getMainRulePrice(i).toString()));
         }
 
         initWidgets();
