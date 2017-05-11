@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import com.fallingstar.yorimi.RuleAddActivity.MainRuleAddActivity;
 import com.fallingstar.yorimi.RuleAddActivity.OptionalRuleAddActivity;
-
-import static com.fallingstar.yorimi.R.id.SubmitBtn;
 
 public class MarketAddActivity extends AppCompatActivity {
 
@@ -26,7 +23,7 @@ public class MarketAddActivity extends AppCompatActivity {
     private Button SubmitBtn;
     private String ruleName, ruleTime, ruleCost;
     private Bundle mainBundle = new Bundle();
-    boolean isMainRuleAdditional = true;
+    private boolean isMainRuleAdditional = true;
 
     /*
     purpose : start MarketAddActivity and init.
@@ -115,8 +112,8 @@ public class MarketAddActivity extends AppCompatActivity {
                 } else {
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("ruleName", ruleName);
-                    resultIntent.putExtras(mainBundle);
                     resultIntent.putExtra("isMainRuleAdditional", isMainRuleAdditional);
+                    resultIntent.putExtras(mainBundle);
                     setResult(RESULT_OK, resultIntent);
                     finish();
                 }
@@ -138,13 +135,24 @@ public class MarketAddActivity extends AppCompatActivity {
             add appropriate data to mainBundle.
              */
             case 1:
+                /*
+                Get Time and cost value from result data,
+                and put them in to the bundle
+                 */
+                ruleTime = data.getStringExtra("Time");
+                ruleCost = data.getStringExtra("Cost");
+                mainBundle.putString("ruleTime", ruleTime);
+                mainBundle.putString("ruleCost", ruleCost);
+
+                /*
+                If resultCode is RESULT_OK,
+                it means the result come from MainRuleAddActivity,
+                so enable optional rule label,
+                because we have to add option rule for market :)
+                 */
                 if (resultCode == RESULT_OK) {
                     isMainRuleAdditional = false;
-                    ruleTime = data.getStringExtra("Time");
-                    ruleCost = data.getStringExtra("Cost");
 
-                    mainBundle.putString("ruleTime", ruleTime);
-                    mainBundle.putString("ruleCost", ruleCost);
                     lblMainRule.setText("첫 " + ruleTime + "분까지 " + ruleCost + "원");
 
                     lblOptionalRule.setHint("추가 요금제 등록");
@@ -154,16 +162,12 @@ public class MarketAddActivity extends AppCompatActivity {
                 If resultCode is RESULT_OK+55,
                 it means the result come from OptionalRuleAddActivity,
                 so disable optional rule label,
-                because we don't have to add duplicated rule for one market :)
+                because we don't have to add duplicated rule for market :)
                  */
                 if (resultCode == (RESULT_OK + 55)) {
                     isMainRuleAdditional = true;
-                    ruleTime = data.getStringExtra("Time");
-                    ruleCost = data.getStringExtra("Cost");
 
-                    mainBundle.putString("ruleTime", ruleTime);
-                    mainBundle.putString("ruleCost", ruleCost);
-                    lblMainRule.setText("첫 " + ruleTime + "분까지 " + ruleCost + "원");
+                    lblMainRule.setText(ruleTime + "분마다 " + ruleCost + "원");
 
                     lblOptionalRule.setText("");
                     lblOptionalRule.setHint("필수 요금제가 이미 추가 요금제입니다");
@@ -182,7 +186,7 @@ public class MarketAddActivity extends AppCompatActivity {
 
                     mainBundle.putString("optRuleTime", ruleTime);
                     mainBundle.putString("optRuleCost", ruleCost);
-                    lblOptionalRule.setText("첫 " + ruleTime + "분까지 " + ruleCost + "원");
+                    lblOptionalRule.setText(ruleTime + "분마다 " + ruleCost + "원");
                 }
                 break;
             default:
