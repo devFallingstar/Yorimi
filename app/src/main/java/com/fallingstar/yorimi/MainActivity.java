@@ -1,11 +1,14 @@
 package com.fallingstar.yorimi;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             case RESULT_OK:
                 Bundle mainBundle = data.getExtras();
                 if (mainBundle.getBoolean("isMainRuleAdditional")) {
+                    Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
                     setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")));
                 } else {
                     setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")));
@@ -95,14 +99,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
     /*
     purpose : Add the rule with only main rule,
                 to custom listView that represent all of markets user added.
      */
     private void setValues(String name, int time, int cost) {
         adapter.addItem(name, "매 " + time + "분 마다 " + cost + "원");
-        adapter.notifyDataSetChanged();
+        listview.setAdapter(adapter);
     }
 
     /*
@@ -111,6 +114,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setValues(String name, int mainTime, int maincost, int optTime, int optCost) {
         adapter.addItem(name, "첫 " + mainTime + "분 까지 " + maincost + "원, 매 " + optTime + "분 마다 " + optCost + "원");
-        adapter.notifyDataSetChanged();
+        listview.setAdapter(adapter);
     }
 }

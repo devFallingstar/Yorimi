@@ -14,11 +14,11 @@ public class OptionalRuleAddActivity extends AppCompatActivity {
     /*
     Define variables.
      */
-    Button SubmitBtn;
-    EditText timeTxt;
-    EditText costTxt;
-    String timeStr, costStr;
-    boolean isOnlyAdditional = true;
+    private Button SubmitBtn;
+    private EditText timeTxt;
+    private EditText costTxt;
+    private String timeStr, costStr;
+    private boolean isOnlyAdditional = true;
 
     /*
     purpose : start MainRuleAddActivity and init.

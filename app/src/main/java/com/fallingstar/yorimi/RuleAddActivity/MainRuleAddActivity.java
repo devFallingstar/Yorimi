@@ -17,11 +17,11 @@ public class MainRuleAddActivity extends AppCompatActivity {
     /*
     Define variables.
      */
-    Button SubmitBtn;
-    EditText timeTxt;
-    EditText costTxt;
-    String timeStr, costStr;
-    boolean isOnlyAdditional = false;
+    private Button SubmitBtn;
+    private EditText timeTxt;
+    private EditText costTxt;
+    private String timeStr, costStr;
+    private boolean isOnlyAdditional = false;
 
     /*
     purpose : start MainRuleAddActivity and init.

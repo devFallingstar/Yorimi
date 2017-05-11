@@ -38,7 +38,6 @@ public class ListViewAdapter extends BaseAdapter {
                 that has specific postion value 'position'.
      */
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
         final Context context = parent.getContext();
 
         /*
