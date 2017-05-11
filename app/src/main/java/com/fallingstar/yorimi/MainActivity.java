@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fallingstar.yorimi.Helper.DatabaseHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     /*
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private ListViewAdapter adapter;
     private FloatingActionButton fBtn;
     private BottomNavigationView bNavView;
+
+    final DatabaseHelper yoribi = new DatabaseHelper(getApplicationContext());
 
     /*
     purpose : start main application activity and init.
@@ -39,6 +43,18 @@ public class MainActivity extends AppCompatActivity {
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
 
         adapter = new ListViewAdapter();
+
+        int count = yoribi.getCount();
+        for(int i = 0; i < count; i++)
+        {
+            String str = "첫 "+yoribi.getMainRuleTime(i)+"분마다 "+yoribi.getMainRulePrice(i)+"원";
+            if(yoribi.getoptRuleBool(i) == 1)
+            {
+//                str+= ", 매"
+            }
+
+
+        }
 
         initWidgets();
     }
