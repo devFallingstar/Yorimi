@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by Jiran on 2017-05-08.
@@ -22,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE YORIBI (_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER);");
+        db.execSQL("CREATE TABLE YORIBI (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER);");
     }
 
     @Override
@@ -44,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         mDB = this.getWritableDatabase();
         mDB.execSQL("INSERT INTO YORIBI VALUES(null, \""+title+"\", "+mainT+", "+mainP+", "+optB+", "+optT+", "+optP+", "+alarm+");");
+        Log.d("SQL INSERT", "INSERT INTO YORIBI VALUES(0, \""+title+"\", "+mainT+", "+mainP+", "+optB+", "+optT+", "+optP+", "+alarm+");");
         closeDB();
     }
 
@@ -63,13 +65,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int getCount()
     {
+        int cnt;
         mDB = this.getReadableDatabase();
 
         Cursor cursor = select("SELECT DISTINCT * FROM YORIBI");
+        cursor.moveToFirst();
 
+        cnt = cursor.getCount();
         closeDB();
 
-        return cursor.getCount();
+        return cnt;
     }
 
     public String getResult()
@@ -79,6 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = select("SELECT DISTINCT * FROM YORIBI");
+        cursor.moveToFirst();
 
         while(cursor.moveToNext())
         {
@@ -90,7 +96,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getInt(5) + " " +
                     cursor.getInt(6) + "\n";
         }
-
         closeDB();
 
         return result;
@@ -103,9 +108,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = select("SELECT DISTINCT title FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
 
-        result += cursor.getString(1);
-
+        result += cursor.getString(0);
         closeDB();
 
         return result;
@@ -118,9 +123,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = select("SELECT DISTINCT mainRuleTime FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
 
-        result += cursor.getInt(2);
-
+        result += cursor.getInt(0);
         closeDB();
 
         return result;
@@ -133,9 +138,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = select("SELECT DISTINCT mainRulePrice FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
 
-        result += cursor.getInt(3);
-
+        result += cursor.getInt(0);
         closeDB();
 
         return result;
@@ -143,13 +148,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int getoptRuleBool(int order)
     {
+        int isOpt;
+
         mDB = this.getReadableDatabase();
 
         Cursor cursor = select("SELECT DISTINCT optRule FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
 
+        isOpt = cursor.getInt(0);
         closeDB();
 
-        return cursor.getInt(4);
+        return isOpt;
     }
 
     public String getoptRuleTime(int order)
@@ -159,9 +168,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = select("SELECT DISTINCT optRuleTime FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
 
-        result += cursor.getInt(5);
-
+        result += cursor.getInt(0);
         closeDB();
 
         return result;
@@ -174,9 +183,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = select("SELECT DISTINCT optRulePrice FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
 
-        result += cursor.getInt(6);
-
+        result += cursor.getInt(0);
         closeDB();
 
         return result;
@@ -189,9 +198,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String result = "";
 
         Cursor cursor = select("SELECT DISTINCT alarm FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
 
-        result += cursor.getInt(7);
-
+        result += cursor.getInt(0);
         closeDB();
 
         return result;

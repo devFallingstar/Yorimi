@@ -90,29 +90,34 @@
         android:textStyle="bold" />
 
     <RadioGroup
+        android:id="@+id/notiRadGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/notiRad0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="없음" />
 
         <RadioButton
+            android:id="@+id/notiRad1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="5분" />
 
         <RadioButton
+            android:id="@+id/notiRad2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="10분" />
 
         <RadioButton
+            android:id="@+id/notiRad3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

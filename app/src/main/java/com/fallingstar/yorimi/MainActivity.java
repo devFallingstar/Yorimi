@@ -1,19 +1,16 @@
 package com.fallingstar.yorimi;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fallingstar.yorimi.Helper.DatabaseHelper;
 
@@ -26,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ListViewAdapter adapter;
     private FloatingActionButton fBtn;
     private BottomNavigationView bNavView;
-
-    final DatabaseHelper yoribi = new DatabaseHelper(getApplicationContext());
+    private DatabaseHelper yoribi;
 
     /*
     purpose : start main application activity and init.
@@ -36,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final Context mainAppContext = getApplicationContext();
+        yoribi = new DatabaseHelper(mainAppContext);
 
         listview = (ListView) findViewById(R.id.listview);
         listview.setAdapter(adapter);
@@ -102,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
             case RESULT_OK:
                 Bundle mainBundle = data.getExtras();
                 if (mainBundle.getBoolean("isMainRuleAdditional")) {
-                    Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
                     setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")));
+                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"));
                 } else {
                     setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")));
+                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"));
                 }
+                Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
                 break;
             default:
                 break;
