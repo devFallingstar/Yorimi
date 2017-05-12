@@ -28,6 +28,7 @@ public class MarketAddActivity extends AppCompatActivity {
     private Bundle mainBundle = new Bundle();
     private boolean isMainRuleAdditional = true;
 
+
     /*
     purpose : start MarketAddActivity and init.
      */
@@ -35,6 +36,7 @@ public class MarketAddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_add);
+
 
         titleTxt = (EditText) findViewById(R.id.txtName);
         lblMainRule = (TextView) findViewById(R.id.lblMainRule);
@@ -53,6 +55,7 @@ public class MarketAddActivity extends AppCompatActivity {
         Default alarm radio button is 5 minute.
          */
         notiRadGroup.check(R.id.notiRad1);
+
         /*
         When main rule label is touched,
         show alert that contains a button list for rule type selecting.
@@ -139,6 +142,7 @@ public class MarketAddActivity extends AppCompatActivity {
         } else if (lblMainRule.getText().equals("")) {
             dialog.setTitle("초기 요금제를 입력해주세요.");
             dialog.show();
+
         } else if (lblOptionalRule.getText().equals("") && !isMainRuleAdditional) {
             dialog.setTitle("추가 요금제를 입력해주세요.");
             dialog.show();
