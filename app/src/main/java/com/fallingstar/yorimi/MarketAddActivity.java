@@ -1,6 +1,7 @@
 package com.fallingstar.yorimi;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fallingstar.yorimi.Helper.DatabaseHelper;
@@ -22,11 +24,12 @@ public class MarketAddActivity extends AppCompatActivity {
     private EditText titleTxt;
     private TextView lblMainRule, lblOptionalRule;
     private Button SubmitBtn;
+    private RadioGroup notiRadGroup;
     private String ruleName, ruleTime, ruleCost;
+    private int notiDelay = 0;
     private Bundle mainBundle = new Bundle();
     private boolean isMainRuleAdditional = true;
-
-    final DatabaseHelper yoribi = new DatabaseHelper(getApplicationContext());
+    private DatabaseHelper yoribi;
 
     /*
     purpose : start MarketAddActivity and init.
@@ -36,9 +39,13 @@ public class MarketAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_add);
 
+        final Context mainAppContext = getApplicationContext();
+        yoribi = new DatabaseHelper(mainAppContext);
+
         titleTxt = (EditText) findViewById(R.id.txtName);
         lblMainRule = (TextView) findViewById(R.id.lblMainRule);
         lblOptionalRule = (TextView) findViewById(R.id.lblOptionalRule);
+        notiRadGroup = (RadioGroup) findViewById(R.id.notiRadGroup);
         SubmitBtn = (Button) findViewById(R.id.SubmitBtn);
 
         initWidgets();
@@ -48,6 +55,10 @@ public class MarketAddActivity extends AppCompatActivity {
     purpose : Initiate all widgets that should contain listener.
     */
     private void initWidgets() {
+        /*
+        Default alarm radio button is 10 minute.
+         */
+        notiRadGroup.check(2);
         /*
         When main rule label is touched,
         show alert that contains a button list for rule type selecting.
@@ -95,33 +106,58 @@ public class MarketAddActivity extends AppCompatActivity {
         SubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ruleName = titleTxt.getText().toString();
-                AlertDialog.Builder dialog = new AlertDialog.Builder(MarketAddActivity.this);
-                dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                if (ruleName.equals("")) {
-                    dialog.setTitle("가게 이름을 입력해주세요.");
-                    dialog.show();
-                } else if (lblMainRule.getText().equals("")) {
-                    dialog.setTitle("초기 요금제를 입력해주세요.");
-                    dialog.show();
-                } else if (lblOptionalRule.getText().equals("") && isMainRuleAdditional == false) {
-                    dialog.setTitle("추가 요금제를 입력해주세요.");
-                    dialog.show();
-                } else {
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("ruleName", ruleName);
-                    resultIntent.putExtra("isMainRuleAdditional", isMainRuleAdditional);
-                    resultIntent.putExtras(mainBundle);
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
-                }
+                setIntentExrasAndSend();
             }
         });
+    }
+
+    private void setIntentExrasAndSend() {
+        ruleName = titleTxt.getText().toString();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MarketAddActivity.this);
+        dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        /*
+        Get checked notification radio button, and set notification delay value.
+        */
+        switch (notiRadGroup.getCheckedRadioButtonId()) {
+            case R.id.notiRad0:
+                notiDelay = 0;
+                break;
+            case R.id.notiRad1:
+                notiDelay = 5;
+                break;
+            case R.id.notiRad2:
+                notiDelay = 10;
+                break;
+            case R.id.notiRad3:
+                notiDelay = 30;
+                break;
+            default:
+                break;
+        }
+        if (ruleName.equals("")) {
+            dialog.setTitle("가게 이름을 입력해주세요.");
+            dialog.show();
+        } else if (lblMainRule.getText().equals("")) {
+            dialog.setTitle("초기 요금제를 입력해주세요.");
+            dialog.show();
+        } else if (lblOptionalRule.getText().equals("") && isMainRuleAdditional == false) {
+            dialog.setTitle("추가 요금제를 입력해주세요.");
+            dialog.show();
+        } else {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("ruleName", ruleName);
+            resultIntent.putExtra("isMainRuleAdditional", isMainRuleAdditional);
+            resultIntent.putExtra("notiDelay", notiDelay);
+            resultIntent.putExtras(mainBundle);
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        }
+
     }
 
     /*
@@ -142,10 +178,12 @@ public class MarketAddActivity extends AppCompatActivity {
                 Get Time and cost value from result data,
                 and put them in to the bundle
                  */
-                ruleTime = data.getStringExtra("Time");
-                ruleCost = data.getStringExtra("Cost");
-                mainBundle.putString("ruleTime", ruleTime);
-                mainBundle.putString("ruleCost", ruleCost);
+                if (resultCode == RESULT_OK || requestCode == RESULT_OK + 55) {
+                    ruleTime = data.getStringExtra("Time");
+                    ruleCost = data.getStringExtra("Cost");
+                    mainBundle.putString("ruleTime", ruleTime);
+                    mainBundle.putString("ruleCost", ruleCost);
+                }
 
                 /*
                 If resultCode is RESULT_OK,
@@ -176,7 +214,7 @@ public class MarketAddActivity extends AppCompatActivity {
                     lblOptionalRule.setHint("필수 요금제가 이미 추가 요금제입니다");
                     lblOptionalRule.setEnabled(false);
 
-                    yoribi.insert(titleTxt.getText().toString(), Integer.parseInt(ruleTime), Integer.parseInt(ruleCost), 0, 0, 0, 0);
+//                    yoribi.insert(titleTxt.getText().toString(), Integer.parseInt(ruleTime), Integer.parseInt(ruleCost), 0, 0, 0, 0);
                 }
                 break;
             /*
@@ -191,7 +229,7 @@ public class MarketAddActivity extends AppCompatActivity {
 
                     mainBundle.putString("optRuleTime", ruleTime);
                     mainBundle.putString("optRuleCost", ruleCost);
-                    lblOptionalRule.setText(ruleTime + "분마다 " + ruleCost + "원");
+                    lblOptionalRule.setText("매 " + ruleTime + "분마다 " + ruleCost + "원");
                 }
                 break;
             default:
