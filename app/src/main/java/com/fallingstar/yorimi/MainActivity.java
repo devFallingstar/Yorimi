@@ -3,7 +3,6 @@ package com.fallingstar.yorimi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +12,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.fallingstar.yorimi.Helper.DatabaseHelper;
+
+import javax.annotation.Nonnull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter();
 
         int count = yoribi.getCount();
-        for(int i = 0; i < count; i++)
+        for(int i = 1; i <= count; i++)
         {
             if(yoribi.getoptRuleBool(i) == 1)
-                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i).toString()), Integer.parseInt(yoribi.getMainRulePrice(i).toString()), Integer.parseInt(yoribi.getoptRuleTime(i).toString()), Integer.parseInt(yoribi.getoptRulePrice(i).toString()));
+                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), Integer.parseInt(yoribi.getoptRuleTime(i)), Integer.parseInt(yoribi.getoptRulePrice(i)));
             else
-                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i).toString()), Integer.parseInt(yoribi.getMainRulePrice(i).toString()));
+                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)));
         }
 
         initWidgets();
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
          */
         bNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@Nonnull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
                         return true;
@@ -101,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
             case RESULT_OK:
                 Bundle mainBundle = data.getExtras();
                 if (mainBundle.getBoolean("isMainRuleAdditional")) {
+                    Log.d("TEST", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
+
                     setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")));
                     yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"));
                 } else {

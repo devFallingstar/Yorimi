@@ -1,7 +1,6 @@
 package com.fallingstar.yorimi;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.fallingstar.yorimi.Helper.DatabaseHelper;
 import com.fallingstar.yorimi.RuleAddActivity.MainRuleAddActivity;
 import com.fallingstar.yorimi.RuleAddActivity.OptionalRuleAddActivity;
 
@@ -29,7 +27,6 @@ public class MarketAddActivity extends AppCompatActivity {
     private int notiDelay = 0;
     private Bundle mainBundle = new Bundle();
     private boolean isMainRuleAdditional = true;
-    private DatabaseHelper yoribi;
 
     /*
     purpose : start MarketAddActivity and init.
@@ -38,9 +35,6 @@ public class MarketAddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_add);
-
-        final Context mainAppContext = getApplicationContext();
-        yoribi = new DatabaseHelper(mainAppContext);
 
         titleTxt = (EditText) findViewById(R.id.txtName);
         lblMainRule = (TextView) findViewById(R.id.lblMainRule);
@@ -56,9 +50,9 @@ public class MarketAddActivity extends AppCompatActivity {
     */
     private void initWidgets() {
         /*
-        Default alarm radio button is 10 minute.
+        Default alarm radio button is 5 minute.
          */
-        notiRadGroup.check(2);
+        notiRadGroup.check(R.id.notiRad1);
         /*
         When main rule label is touched,
         show alert that contains a button list for rule type selecting.
@@ -145,7 +139,7 @@ public class MarketAddActivity extends AppCompatActivity {
         } else if (lblMainRule.getText().equals("")) {
             dialog.setTitle("초기 요금제를 입력해주세요.");
             dialog.show();
-        } else if (lblOptionalRule.getText().equals("") && isMainRuleAdditional == false) {
+        } else if (lblOptionalRule.getText().equals("") && !isMainRuleAdditional) {
             dialog.setTitle("추가 요금제를 입력해주세요.");
             dialog.show();
         } else {
@@ -175,17 +169,6 @@ public class MarketAddActivity extends AppCompatActivity {
              */
             case 1:
                 /*
-                Get Time and cost value from result data,
-                and put them in to the bundle
-                 */
-                if (resultCode == RESULT_OK || requestCode == RESULT_OK + 55) {
-                    ruleTime = data.getStringExtra("Time");
-                    ruleCost = data.getStringExtra("Cost");
-                    mainBundle.putString("ruleTime", ruleTime);
-                    mainBundle.putString("ruleCost", ruleCost);
-                }
-
-                /*
                 If resultCode is RESULT_OK,
                 it means the result come from MainRuleAddActivity,
                 so enable optional rule label,
@@ -193,6 +176,10 @@ public class MarketAddActivity extends AppCompatActivity {
                  */
                 if (resultCode == RESULT_OK) {
                     isMainRuleAdditional = false;
+                    ruleTime = data.getStringExtra("Time");
+                    ruleCost = data.getStringExtra("Cost");
+                    mainBundle.putString("ruleTime", ruleTime);
+                    mainBundle.putString("ruleCost", ruleCost);
 
                     lblMainRule.setText("첫 " + ruleTime + "분까지 " + ruleCost + "원");
 
@@ -207,16 +194,19 @@ public class MarketAddActivity extends AppCompatActivity {
                  */
                 if (resultCode == (RESULT_OK + 55)) {
                     isMainRuleAdditional = true;
+                    ruleTime = data.getStringExtra("Time");
+                    ruleCost = data.getStringExtra("Cost");
+                    mainBundle.putString("ruleTime", ruleTime);
+                    mainBundle.putString("ruleCost", ruleCost);
 
                     lblMainRule.setText(ruleTime + "분마다 " + ruleCost + "원");
 
                     lblOptionalRule.setText("");
                     lblOptionalRule.setHint("필수 요금제가 이미 추가 요금제입니다");
                     lblOptionalRule.setEnabled(false);
-
-//                    yoribi.insert(titleTxt.getText().toString(), Integer.parseInt(ruleTime), Integer.parseInt(ruleCost), 0, 0, 0, 0);
                 }
                 break;
+
             /*
             If the result is come from OptionalRuleAddActivity,
             with a request code 2, which means rule for optional rule,

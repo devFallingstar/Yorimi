@@ -13,7 +13,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
     private static final String DB_NAME="YORIMI.db";
-    SQLiteDatabase mDB = null;
+    private SQLiteDatabase mDB = null;
 
     public DatabaseHelper(Context context)
     {
@@ -31,12 +31,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void closeDB()
+    private void closeDB()
     {
         mDB.close();
     }
 
-    public Cursor select(String query)
+    private Cursor select(String query)
     {
         return mDB.rawQuery(query, null);
     }
@@ -49,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         closeDB();
     }
 
+    @SuppressWarnings("unused")
     public void update(String set, String where)
     {
         mDB = this.getWritableDatabase();
@@ -56,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         closeDB();
     }
 
+    @SuppressWarnings("unused")
     public void delete(String where)
     {
         mDB = this.getWritableDatabase();
@@ -72,11 +74,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         cnt = cursor.getCount();
+        Log.d("Cnt", cursor.getInt(0)+"");
         closeDB();
 
         return cnt;
     }
 
+    @SuppressWarnings("unused")
     public String getResult()
     {
         mDB = this.getReadableDatabase();
@@ -191,6 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    @SuppressWarnings("unused")
     public String getPushAlarm(int order)
     {
         mDB = this.getReadableDatabase();
