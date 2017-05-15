@@ -127,8 +127,8 @@ public class ListViewAdapter extends BaseAdapter {
      */
     private void setAlarm(int _DBIdx) {
         int DBIdx = _DBIdx;
-//        int delay = Integer.parseInt(DBHelper.getPushAlarm(DBIdx));
-        int delay = 1; //for test
+        int delay = Integer.parseInt(DBHelper.getPushAlarm(DBIdx));
+//        int delay = 1; //for test
 
         if (DBHelper.getoptRuleBool(DBIdx)==1){
             helper = new AlarmHelper(
