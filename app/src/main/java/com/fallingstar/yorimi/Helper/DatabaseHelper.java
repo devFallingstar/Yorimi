@@ -74,7 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         cnt = cursor.getCount();
-        Log.d("Cnt", cursor.getInt(0)+"");
         closeDB();
 
         return cnt;

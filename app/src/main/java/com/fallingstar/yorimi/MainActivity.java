@@ -13,8 +13,6 @@ import android.widget.ListView;
 
 import com.fallingstar.yorimi.Helper.DatabaseHelper;
 
-import javax.annotation.Nonnull;
-
 public class MainActivity extends AppCompatActivity {
 
     /*
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
          */
         bNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@Nonnull MenuItem menuItem) {
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_home:
                         return true;

@@ -110,13 +110,6 @@ public class MarketAddActivity extends AppCompatActivity {
 
     private void setIntentExrasAndSend() {
         ruleName = titleTxt.getText().toString();
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MarketAddActivity.this);
-        dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
         /*
         Get checked notification radio button, and set notification delay value.
         */
@@ -136,26 +129,49 @@ public class MarketAddActivity extends AppCompatActivity {
             default:
                 break;
         }
-        if (ruleName.equals("")) {
-            dialog.setTitle("가게 이름을 입력해주세요.");
-            dialog.show();
-        } else if (lblMainRule.getText().equals("")) {
-            dialog.setTitle("초기 요금제를 입력해주세요.");
-            dialog.show();
 
-        } else if (lblOptionalRule.getText().equals("") && !isMainRuleAdditional) {
-            dialog.setTitle("추가 요금제를 입력해주세요.");
-            dialog.show();
-        } else {
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("ruleName", ruleName);
-            resultIntent.putExtra("isMainRuleAdditional", isMainRuleAdditional);
-            resultIntent.putExtra("notiDelay", notiDelay);
-            resultIntent.putExtras(mainBundle);
-            setResult(RESULT_OK, resultIntent);
-            finish();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MarketAddActivity.this)
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        switch (checkNullValue()){
+            case -1:
+                dialog.setTitle("가게 이름을 입력해주세요.");
+                dialog.show();
+                break;
+            case -2:
+                dialog.setTitle("필수 요금제를 입력해주세요.");
+                dialog.show();
+                break;
+            case -3:
+                dialog.setTitle("추가 요금제를 입력해주세요.");
+                dialog.show();
+                break;
+            default:
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("ruleName", ruleName);
+                resultIntent.putExtra("isMainRuleAdditional", isMainRuleAdditional);
+                resultIntent.putExtra("notiDelay", notiDelay);
+                resultIntent.putExtras(mainBundle);
+                setResult(RESULT_OK, resultIntent);
+                finish();
+                break;
         }
+    }
 
+    private int checkNullValue() {
+        if (ruleName.equals("")) {
+            return -1;
+        } else if (lblMainRule.getText().equals("")) {
+            return -2;
+        } else if (lblOptionalRule.getText().equals("") && !isMainRuleAdditional) {
+            return -3;
+        } else {
+            return 0;
+        }
     }
 
     /*
