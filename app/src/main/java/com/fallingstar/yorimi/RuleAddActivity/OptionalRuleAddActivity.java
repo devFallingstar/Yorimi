@@ -1,5 +1,7 @@
 package com.fallingstar.yorimi.RuleAddActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,19 +47,46 @@ public class OptionalRuleAddActivity extends AppCompatActivity {
         SubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(OptionalRuleAddActivity.this)
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
                 timeStr = timeTxt.getText().toString();
                 costStr = costTxt.getText().toString();
-
-                intent.putExtra("isOnlyAdditional", isOnlyAdditional);
-                intent.putExtra("RuleType", "additional");
-                intent.putExtra("Time", timeStr);
-                intent.putExtra("Cost", costStr);
-                setResult(RESULT_OK + 55, intent);
-
-                finish();
+                switch (checkNullValue()) {
+                    case -1:
+                        dialog.setTitle("시간을 입력해주세요.");
+                        dialog.show();
+                        break;
+                    case -2:
+                        dialog.setTitle("금액을 입력해주세요.");
+                        dialog.show();
+                        break;
+                    default:
+                        Intent intent = new Intent();
+                        intent.putExtra("isOnlyAdditional", isOnlyAdditional);
+                        intent.putExtra("RuleType", "additional");
+                        intent.putExtra("Time", timeStr);
+                        intent.putExtra("Cost", costStr);
+                        setResult(RESULT_OK + 55, intent);
+                        finish();
+                        break;
+                }
             }
         });
     }
 
+    private int checkNullValue() {
+        if (timeStr.equals("")) {
+            return -1;
+        }else if (costStr.equals("")) {
+            return -2;
+        }else {
+            return 0;
+        }
+    }
 }

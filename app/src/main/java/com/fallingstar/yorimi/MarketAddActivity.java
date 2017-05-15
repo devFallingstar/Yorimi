@@ -109,6 +109,14 @@ public class MarketAddActivity extends AppCompatActivity {
     }
 
     private void setIntentExrasAndSend() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MarketAddActivity.this)
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
         ruleName = titleTxt.getText().toString();
         /*
         Get checked notification radio button, and set notification delay value.
@@ -129,14 +137,6 @@ public class MarketAddActivity extends AppCompatActivity {
             default:
                 break;
         }
-
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MarketAddActivity.this)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
         switch (checkNullValue()){
             case -1:
                 dialog.setTitle("가게 이름을 입력해주세요.");
