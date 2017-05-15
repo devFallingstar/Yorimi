@@ -1,12 +1,16 @@
 package com.fallingstar.yorimi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.fallingstar.yorimi.Helper.Alarm.AlarmHelper;
+import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 
 import java.util.ArrayList;
 
@@ -18,12 +22,17 @@ public class ListViewAdapter extends BaseAdapter {
     /*
     Define variables.
      */
+    private AlarmHelper helper;
+    private DatabaseHelper DBHelper;
+    private Context mainContext;
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
 
     /*
     purpose : Initiator for ListViewAdapter
      */
-    public ListViewAdapter() {
+    public ListViewAdapter(Context _context, DatabaseHelper _DBHelper) {
+        mainContext = _context;
+        DBHelper = _DBHelper;
     }
 
     /*
@@ -37,7 +46,7 @@ public class ListViewAdapter extends BaseAdapter {
     purpose : Return the View instance that will use to print a data,
                 that has specific postion value 'position'.
      */
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final Context context = parent.getContext();
 
         /*
@@ -69,7 +78,6 @@ public class ListViewAdapter extends BaseAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String str = ((Button) v).getText().toString();
                 if (str.equalsIgnoreCase("Start")) {
                     /*
@@ -77,11 +85,13 @@ public class ListViewAdapter extends BaseAdapter {
                      */
                     ((Button) v).setText("End");
 
+                    setAlarm(position+1);
                 } else if (str.equalsIgnoreCase("end")) {
                     /*
                     TODO : add action for alarm ending trigger
                      */
                     ((Button) v).setText("Start");
+                    removeAlarm(position+1);
                 }
             }
         });
@@ -110,5 +120,53 @@ public class ListViewAdapter extends BaseAdapter {
         item.setButtonStr("Start");
 
         listViewItemList.add(item);
+    }
+
+    /*
+    purpose : Set alarm by using DB Index (index of collection view postion + 1) to ID value.
+     */
+    private void setAlarm(int _DBIdx) {
+        int DBIdx = _DBIdx;
+//        int delay = Integer.parseInt(DBHelper.getPushAlarm(DBIdx));
+        int delay = 1; //for test
+
+        if (DBHelper.getoptRuleBool(DBIdx)==1){
+            helper = new AlarmHelper(
+                    DBHelper.getTitle(DBIdx)
+                    ,DBHelper.getMainRuleTime(DBIdx)
+                    ,DBHelper.getMainRulePrice(DBIdx)
+                    ,DBHelper.getoptRuleTime(DBIdx)
+                    ,DBHelper.getoptRulePrice(DBIdx));
+            helper.registerAlarm(mainContext, delay, DBIdx);
+        }else{
+            helper = new AlarmHelper(
+                    DBHelper.getTitle(DBIdx)
+                    ,DBHelper.getMainRuleTime(DBIdx)
+                    ,DBHelper.getMainRulePrice(DBIdx));
+            helper.registerAlarm(mainContext, delay, DBIdx);
+        }
+    }
+
+    /*
+    purpose : Cancel and remove alarm by using DB Index (index of collection view postion + 1) to ID value.
+     */
+    private void removeAlarm(int _DBIdx) {
+        int DBIdx = _DBIdx;
+
+        if (DBHelper.getoptRuleBool(DBIdx)==1){
+            helper = new AlarmHelper(
+                    DBHelper.getTitle(DBIdx)
+                    ,DBHelper.getMainRuleTime(DBIdx)
+                    ,DBHelper.getMainRulePrice(DBIdx)
+                    ,DBHelper.getoptRuleTime(DBIdx)
+                    ,DBHelper.getoptRulePrice(DBIdx));
+            helper.unRegisterAlarm(mainContext, DBIdx);
+        }else{
+            helper = new AlarmHelper(
+                    DBHelper.getTitle(DBIdx)
+                    ,DBHelper.getMainRuleTime(DBIdx)
+                    ,DBHelper.getMainRulePrice(DBIdx));
+            helper.unRegisterAlarm(mainContext, DBIdx);
+        }
     }
 }

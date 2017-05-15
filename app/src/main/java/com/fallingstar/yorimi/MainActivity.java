@@ -11,10 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.fallingstar.yorimi.Helper.DatabaseHelper;
+import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
-
     /*
     Define variables.
      */
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         bNavView = (BottomNavigationView) findViewById(R.id.bottomNav);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
 
-        adapter = new ListViewAdapter();
+        adapter = new ListViewAdapter(MainActivity.this, yoribi);
 
         int count = yoribi.getCount();
         for(int i = 1; i <= count; i++)

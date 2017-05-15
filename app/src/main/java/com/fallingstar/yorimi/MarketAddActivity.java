@@ -15,7 +15,6 @@ import com.fallingstar.yorimi.RuleAddActivity.MainRuleAddActivity;
 import com.fallingstar.yorimi.RuleAddActivity.OptionalRuleAddActivity;
 
 public class MarketAddActivity extends AppCompatActivity {
-
     /*
     Define variables
      */
@@ -27,7 +26,6 @@ public class MarketAddActivity extends AppCompatActivity {
     private int notiDelay = 0;
     private Bundle mainBundle = new Bundle();
     private boolean isMainRuleAdditional = true;
-
 
     /*
     purpose : start MarketAddActivity and init.
@@ -108,6 +106,11 @@ public class MarketAddActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    purpose : Set and init Intent with values,
+    that represent each time and cost of rule,
+    by checking if the value is null or not.
+     */
     private void setIntentExrasAndSend() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MarketAddActivity.this)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -162,6 +165,9 @@ public class MarketAddActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    purpose : Check if there's null value or not from every text view
+     */
     private int checkNullValue() {
         if (ruleName.equals("")) {
             return -1;

@@ -1,4 +1,4 @@
-package com.fallingstar.yorimi.Helper;
+package com.fallingstar.yorimi.Helper.Database;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -194,7 +194,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    @SuppressWarnings("unused")
     public String getPushAlarm(int order)
     {
         mDB = this.getReadableDatabase();

@@ -21,7 +21,23 @@
         <activity android:name=".MarketAddActivity" />
         <activity android:name=".RuleAddActivity.MainRuleAddActivity" />
         <activity android:name=".RuleAddActivity.OptionalRuleAddActivity" />
-        <activity android:name=".Helper.AlarmHelper"></activity>
+        <activity android:name=".Helper.Alarm.AlarmHelper" />
+
+        <service
+            android:name=".Helper.Alarm.AlarmService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".Helper.Alarm.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.fallingstar.yorimi.ALARM_START" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Helper.Alarm.ServiceThread"></activity>
     </application>
 
 </manifest>
