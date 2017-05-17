@@ -39,9 +39,16 @@ public class MainActivity extends AppCompatActivity {
         bNavView = (BottomNavigationView) findViewById(R.id.bottomNav);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
 
-        adapter = new ListViewAdapter(MainActivity.this, yoribi);
+        initListAdapter();
+        initListWithSQLData();
 
+        initWidgets();
+    }
+
+    private void initListWithSQLData() {
         int count = yoribi.getCount();
+
+        initListAdapter();
         for(int i = 1; i <= count; i++)
         {
             if(yoribi.getoptRuleBool(i) == 1)
@@ -49,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
             else
                 setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)));
         }
-
-        initWidgets();
     }
 
     /*
@@ -72,14 +77,26 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+//        /*
+//        Floating button with MarketAddActivity intent.
+//         */
+//        fBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
+//                startActivityForResult(marketAddIntent, 3);
+//            }
+//        });
+
         /*
-        Floating button with MarketAddActivity intent.
+        TODO: Test, should be deleted
          */
         fBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
-                startActivityForResult(marketAddIntent, 3);
+                yoribi.delete(1+1);
+                initListWithSQLData();
             }
         });
     }
@@ -112,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    /*
+    purpose : Initialize list adapter.
+     */
+    private void initListAdapter() {
+        adapter = new ListViewAdapter(MainActivity.this, yoribi);
     }
     /*
     purpose : Add the rule with only main rule,

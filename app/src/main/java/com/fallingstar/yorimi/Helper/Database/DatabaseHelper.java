@@ -12,8 +12,9 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
-    private static final String DB_NAME="YORIMI.db";
+    private static final String DB_NAME="YORIBI.db";
     private SQLiteDatabase mDB = null;
+    private static int lastIdx = 1;
 
     public DatabaseHelper(Context context)
     {
@@ -23,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE YORIBI (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER);");
+        db.execSQL("CREATE TABLE YORIBI (id INTEGER PRIMARY KEY NOT NULL, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER);");
     }
 
     @Override
@@ -44,8 +45,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insert(String title, int mainT, int mainP, int optB, int optT, int optP, int alarm)
     {
         mDB = this.getWritableDatabase();
-        mDB.execSQL("INSERT INTO YORIBI VALUES(null, \""+title+"\", "+mainT+", "+mainP+", "+optB+", "+optT+", "+optP+", "+alarm+");");
-        Log.d("SQL INSERT", "INSERT INTO YORIBI VALUES(0, \""+title+"\", "+mainT+", "+mainP+", "+optB+", "+optT+", "+optP+", "+alarm+");");
+        mDB.execSQL("INSERT INTO YORIBI VALUES("+lastIdx+", \""+title+"\", "+mainT+", "+mainP+", "+optB+", "+optT+", "+optP+", "+alarm+");");
+        lastIdx++;
         closeDB();
     }
 
@@ -65,6 +66,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         closeDB();
     }
 
+    public void delete(int idx)
+    {
+        mDB = this.getWritableDatabase();
+        mDB.execSQL("DELETE FROM YORIBI WHERE id="+idx);
+        closeDB();
+
+        refreshDataFromId(idx);
+    }
+
+    private void refreshDataFromId(int idx)
+    {
+        mDB = this.getWritableDatabase();
+        mDB.execSQL("BEGIN TRANSACTION;");
+        mDB.execSQL("CREATE TABLE YORIBI_NEW (id INTEGER PRIMARY KEY NOT NULL, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER);");
+        mDB.execSQL("INSERT INTO YORIBI_NEW(title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm) SELECT title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm FROM YORIBI");
+        mDB.execSQL("DROP TABLE YORIBI");
+        mDB.execSQL("ALTER TABLE YORIBI_NEW RENAME TO YORIBI");
+        mDB.execSQL("COMMIT;");
+
+        closeDB();
+    }
+
     public int getCount()
     {
         int cnt;
@@ -75,6 +98,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cnt = cursor.getCount();
         closeDB();
+
+        lastIdx = cnt+1;
 
         return cnt;
     }
