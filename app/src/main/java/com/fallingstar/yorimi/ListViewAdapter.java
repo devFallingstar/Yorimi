@@ -1,7 +1,6 @@
 package com.fallingstar.yorimi;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +67,6 @@ public class ListViewAdapter extends BaseAdapter {
          Get data reference from data set(listViewitemList) that placed at 'position'.
           */
         ListViewItem listViewItem = listViewItemList.get(position);
-
         /*
          Apply the data to each widget that in listViewItem.
           */
@@ -108,6 +106,8 @@ public class ListViewAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return listViewItemList.get(position);
     }
+
+
 
     /*
     purpose : add item to list with title and description.

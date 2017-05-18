@@ -32,23 +32,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Context mainAppContext = getApplicationContext();
-        yoribi = new DatabaseHelper(mainAppContext);
 
+        yoribi = new DatabaseHelper(mainAppContext);
         listview = (ListView) findViewById(R.id.listview);
-        listview.setAdapter(adapter);
         bNavView = (BottomNavigationView) findViewById(R.id.bottomNav);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
 
-        initListAdapter();
+        initListView();
         initListWithSQLData();
 
         initWidgets();
     }
 
+    /*
+    purpose : Initialize list view.
+     */
+    private void initListView() {
+        adapter = new ListViewAdapter(MainActivity.this, yoribi);
+        listview.setAdapter(adapter);
+    }
+
     private void initListWithSQLData() {
         int count = yoribi.getCount();
 
-        initListAdapter();
+        initListView();
         for(int i = 1; i <= count; i++)
         {
             if(yoribi.getoptRuleBool(i) == 1)
@@ -62,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     purpose : Initiate all widgets that should contain listener.
     */
     private void initWidgets() {
+
         /*
         Segments changing(Tabbar method).
          */
@@ -78,27 +86,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        /*
-//        Floating button with MarketAddActivity intent.
-//         */
-//        fBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
-//                startActivityForResult(marketAddIntent, 3);
-//            }
-//        });
-
         /*
-        TODO: Test, should be deleted
+        Floating button with MarketAddActivity intent.
          */
         fBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                yoribi.delete(1+1);
-                initListWithSQLData();
+                Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
+                startActivityForResult(marketAddIntent, 3);
             }
         });
+
+//        /*
+//        TODO: Test, should be deleted
+//         */
+//        fBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                yoribi.delete(1+1);
+//                initListWithSQLData();
+//            }
+//        });
     }
 
     /*
@@ -131,12 +139,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    purpose : Initialize list adapter.
-     */
-    private void initListAdapter() {
-        adapter = new ListViewAdapter(MainActivity.this, yoribi);
-    }
+
     /*
     purpose : Add the rule with only main rule,
                 to custom listView that represent all of markets user added.
