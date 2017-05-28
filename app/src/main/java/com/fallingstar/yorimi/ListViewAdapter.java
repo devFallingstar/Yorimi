@@ -9,9 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.fallingstar.yorimi.Helper.Alarm.AlarmHelper;
+import com.fallingstar.yorimi.Helper.Calculation.CalculationHelper;
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Jiran on 2017-04-27.
@@ -66,7 +68,7 @@ public class ListViewAdapter extends BaseAdapter {
         /*
          Get data reference from data set(listViewitemList) that placed at 'position'.
           */
-        ListViewItem listViewItem = listViewItemList.get(position);
+        final ListViewItem listViewItem = listViewItemList.get(position);
         /*
          Apply the data to each widget that in listViewItem.
           */
@@ -82,7 +84,6 @@ public class ListViewAdapter extends BaseAdapter {
                     TODO : add action for alarm starting trigger
                      */
                     ((Button) v).setText("End");
-
                     setAlarm(position+1);
                 } else if (str.equalsIgnoreCase("end")) {
                     /*
@@ -107,8 +108,6 @@ public class ListViewAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-
-
     /*
     purpose : add item to list with title and description.
      */
@@ -126,11 +125,12 @@ public class ListViewAdapter extends BaseAdapter {
     purpose : Set alarm by using DB Index (index of collection view postion + 1) to ID value.
      */
     private void setAlarm(int _DBIdx) {
+        CalculationHelper myCalcHelper = new CalculationHelper();
         int DBIdx = _DBIdx;
         int delay = Integer.parseInt(DBHelper.getPushAlarm(DBIdx));
 //        int delay = 1; //for test
 
-        if (DBHelper.getoptRuleBool(DBIdx)==1){
+        if (DBHelper.getoptRuleBool(DBIdx)==1){ //If there's option rule,
             helper = new AlarmHelper(
                     DBHelper.getTitle(DBIdx)
                     ,DBHelper.getMainRuleTime(DBIdx)
@@ -139,12 +139,14 @@ public class ListViewAdapter extends BaseAdapter {
                     ,DBHelper.getoptRulePrice(DBIdx));
             helper.registerAlarm(mainContext, delay, DBIdx);
         }else{
-            helper = new AlarmHelper(
+            helper = new AlarmHelper( //If there's no option rule,
                     DBHelper.getTitle(DBIdx)
                     ,DBHelper.getMainRuleTime(DBIdx)
                     ,DBHelper.getMainRulePrice(DBIdx));
             helper.registerAlarm(mainContext, delay, DBIdx);
         }
+        //Save current time for notice the alarm
+        myCalcHelper.setStartMillis(System.currentTimeMillis(), DBIdx-1);
     }
 
     /*

@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private ListViewAdapter adapter;
     private FloatingActionButton fBtn;
     private BottomNavigationView bNavView;
-    private DatabaseHelper yoribi;
+    private static DatabaseHelper yoribi;
 
     /*
     purpose : start main application activity and init.
@@ -156,5 +156,9 @@ public class MainActivity extends AppCompatActivity {
     private void setValues(String name, int mainTime, int maincost, int optTime, int optCost) {
         adapter.addItem(name, "첫 " + mainTime + "분 까지 " + maincost + "원, 매 " + optTime + "분 마다 " + optCost + "원");
         listview.setAdapter(adapter);
+    }
+
+    public static DatabaseHelper getYoribi(){
+        return yoribi;
     }
 }

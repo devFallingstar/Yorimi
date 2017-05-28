@@ -10,7 +10,6 @@ public class ServiceThread extends Thread {
    Define variables.
     */
     Handler handler;
-    boolean isRun = true;
 
     public ServiceThread(Handler _handler){
         this.handler = _handler;

@@ -49,6 +49,7 @@ public class AlarmHelper extends Activity {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("IDX", String.valueOf(idx));
         intent.putExtra("TITLE", this.title);
+        intent.putExtra("ISONLYMAIN", isOnlyMain);
         PendingIntent pIntent = PendingIntent.getBroadcast(
                 context,
                 idx,

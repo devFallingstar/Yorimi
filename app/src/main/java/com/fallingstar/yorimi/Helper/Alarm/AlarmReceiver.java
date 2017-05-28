@@ -17,9 +17,12 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String idxStr = intent.getStringExtra("IDX");
         String titleStr = intent.getStringExtra("TITLE");
+        boolean isOnlyMain = intent.getBooleanExtra("ISONLYMAIN", false);
+
         Intent serviceIntent = new Intent(context, AlarmService.class);
         serviceIntent.putExtra("IDX", idxStr);
         serviceIntent.putExtra("TITLE", titleStr);
+        serviceIntent.putExtra("ISONLYMAIN", isOnlyMain);
 
         context.startService(serviceIntent);
     }
