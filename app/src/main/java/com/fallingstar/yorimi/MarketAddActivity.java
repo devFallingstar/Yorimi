@@ -26,6 +26,7 @@ public class MarketAddActivity extends AppCompatActivity {
     private int notiDelay = 0;
     private Bundle mainBundle = new Bundle();
     private boolean isMainRuleAdditional = true;
+    private boolean alarmSet = false;
 
     /*
     purpose : start MarketAddActivity and init.
@@ -158,6 +159,7 @@ public class MarketAddActivity extends AppCompatActivity {
                 resultIntent.putExtra("ruleName", ruleName);
                 resultIntent.putExtra("isMainRuleAdditional", isMainRuleAdditional);
                 resultIntent.putExtra("notiDelay", notiDelay);
+                resultIntent.putExtra("alarmSet", alarmSet);
                 resultIntent.putExtras(mainBundle);
                 setResult(RESULT_OK, resultIntent);
                 finish();

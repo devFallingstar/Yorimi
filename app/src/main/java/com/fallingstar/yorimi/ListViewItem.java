@@ -1,7 +1,5 @@
 package com.fallingstar.yorimi;
 
-import java.util.HashMap;
-
 /**
  * Created by Jiran on 2017-04-27.
  */

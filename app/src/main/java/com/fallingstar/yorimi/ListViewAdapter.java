@@ -1,6 +1,7 @@
 package com.fallingstar.yorimi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,12 +85,16 @@ public class ListViewAdapter extends BaseAdapter {
                     TODO : add action for alarm starting trigger
                      */
                     ((Button) v).setText("End");
+                    DBHelper.updateState(position+1, true);
+                    Log.d("alarmSet BOOL", "alaramSet update value "+ true);
                     setAlarm(position+1);
                 } else if (str.equalsIgnoreCase("end")) {
                     /*
                     TODO : add action for alarm ending trigger
                      */
                     ((Button) v).setText("Start");
+                    DBHelper.updateState(position+1, false);
+                    Log.d("alarmSet BOOL", "alaramSet update value "+ false);
                     removeAlarm(position+1);
                 }
             }
@@ -111,12 +116,18 @@ public class ListViewAdapter extends BaseAdapter {
     /*
     purpose : add item to list with title and description.
      */
-    public void addItem(String title, String desc) {
+    public void addItem(String title, String desc, Boolean state) {
         ListViewItem item = new ListViewItem();
 
         item.setTitle(title);
         item.setDesc(desc);
-        item.setButtonStr("Start");
+
+        Log.d("alarmSet BOOL", "alaramSet value "+ state);
+
+        if(state)
+            item.setButtonStr("End");
+        else
+            item.setButtonStr("Start");
 
         listViewItemList.add(item);
     }

@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE YORIBI (id INTEGER PRIMARY KEY NOT NULL, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER);");
+        db.execSQL("CREATE TABLE YORIBI (id INTEGER PRIMARY KEY NOT NULL, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER, alarmSet BOOL);");
     }
 
     @Override
@@ -42,10 +42,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return mDB.rawQuery(query, null);
     }
 
-    public void insert(String title, int mainT, int mainP, int optB, int optT, int optP, int alarm)
+    public void insert(String title, int mainT, int mainP, int optB, int optT, int optP, int alarm, Boolean alarmS)
     {
         mDB = this.getWritableDatabase();
-        mDB.execSQL("INSERT INTO YORIBI VALUES("+lastIdx+", \""+title+"\", "+mainT+", "+mainP+", "+optB+", "+optT+", "+optP+", "+alarm+");");
+
+        int state;
+        if(alarmS)
+            state = 1;
+        else
+            state = 0;
+
+        mDB.execSQL("INSERT INTO YORIBI VALUES("+lastIdx+", \""+title+"\", "+mainT+", "+mainP+", "+optB+", "+optT+", "+optP+", "+alarm+", "+state+");");
         lastIdx++;
         closeDB();
     }
@@ -55,6 +62,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         mDB = this.getWritableDatabase();
         mDB.execSQL("UPDATE YORIBI SET "+set+" WHERE "+where+";");
+        closeDB();
+    }
+
+    public void updateState(int id, Boolean state)
+    {
+        mDB = this.getWritableDatabase();
+        int alarmS;
+        if(state)
+            alarmS = 1;
+        else
+            alarmS = 0;
+        mDB.execSQL("UPDATE YORIBI SET alarmSet="+alarmS+" WHERE id="+id+";");
         closeDB();
     }
 
@@ -79,8 +98,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     {
         mDB = this.getWritableDatabase();
         mDB.execSQL("BEGIN TRANSACTION;");
-        mDB.execSQL("CREATE TABLE YORIBI_NEW (id INTEGER PRIMARY KEY NOT NULL, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER);");
-        mDB.execSQL("INSERT INTO YORIBI_NEW(title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm) SELECT title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm FROM YORIBI");
+        mDB.execSQL("CREATE TABLE YORIBI_NEW (id INTEGER PRIMARY KEY NOT NULL, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER, alarmSet BOOL);");
+        mDB.execSQL("INSERT INTO YORIBI_NEW(title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm) SELECT title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm, alarmSet FROM YORIBI");
         mDB.execSQL("DROP TABLE YORIBI");
         mDB.execSQL("ALTER TABLE YORIBI_NEW RENAME TO YORIBI");
         mDB.execSQL("COMMIT;");
@@ -233,4 +252,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return result;
     }
+
+    public Boolean getAlarmSet(int order)
+    {
+        mDB = this.getReadableDatabase();
+
+        Boolean result;
+
+        Cursor cursor = select("SELECT DISTINCT alarmSet FROM YORIBI WHERE id = "+order+";");
+        cursor.moveToFirst();
+
+        result = cursor.getInt(0)>0;
+        closeDB();
+
+        return result;
+    }
+
+//    public int getAlarmSet(String title)
+//    {
+//        mDB = this.getReadableDatabase();
+//
+//        int result;
+//
+//        Cursor cursor = select("SELECT DISTINCT alarmSet FROM YORIBI WHERE title = "+title+";");
+//        cursor.moveToFirst();
+//
+//        result = cursor.getInt(0);
+//        closeDB();
+//
+//        return result;
+//    }
 }

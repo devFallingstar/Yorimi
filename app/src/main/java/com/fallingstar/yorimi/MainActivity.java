@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 1; i <= count; i++)
         {
             if(yoribi.getoptRuleBool(i) == 1)
-                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), Integer.parseInt(yoribi.getoptRuleTime(i)), Integer.parseInt(yoribi.getoptRulePrice(i)));
+                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), Integer.parseInt(yoribi.getoptRuleTime(i)), Integer.parseInt(yoribi.getoptRulePrice(i)), yoribi.getAlarmSet(i));
             else
-                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)));
+                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), yoribi.getAlarmSet(i));
         }
     }
 
@@ -113,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
     purpose : when the marketAddActivity return the intent with result code,
                 check its boolean value that represent a type of main rule.
                 If the main rule is type of 'until first time n',
-                then call setValues(String, int, int),
+                then call setValues(String, int, int, int),
                 and if the main rule is type of 'every time n',
-                then call setValues(String, int, int, int, int).
+                then call setValues(String, int, int, int, int, int).
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -126,11 +126,11 @@ public class MainActivity extends AppCompatActivity {
                 if (mainBundle.getBoolean("isMainRuleAdditional")) {
                     Log.d("TEST", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
 
-                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")));
-                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"));
+                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), mainBundle.getBoolean("alarmSet"));
+                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
                 } else {
-                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")));
-                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"));
+                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getBoolean("alarmSet"));
+                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
                 }
                 Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
                 break;
@@ -144,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
     purpose : Add the rule with only main rule,
                 to custom listView that represent all of markets user added.
      */
-    private void setValues(String name, int time, int cost) {
-        adapter.addItem(name, "매 " + time + "분 마다 " + cost + "원");
+    private void setValues(String name, int time, int cost, Boolean state) {
+        adapter.addItem(name, "매 " + time + "분 마다 " + cost + "원", state);
         listview.setAdapter(adapter);
     }
 
@@ -153,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
     purpose : Add the rule with main rule and optional rule,
                 to custom listView that represent all of markets user added.
      */
-    private void setValues(String name, int mainTime, int maincost, int optTime, int optCost) {
-        adapter.addItem(name, "첫 " + mainTime + "분 까지 " + maincost + "원, 매 " + optTime + "분 마다 " + optCost + "원");
+    private void setValues(String name, int mainTime, int maincost, int optTime, int optCost, Boolean state) {
+        adapter.addItem(name, "첫 " + mainTime + "분 까지 " + maincost + "원, 매 " + optTime + "분 마다 " + optCost + "원", state);
         listview.setAdapter(adapter);
     }
 
