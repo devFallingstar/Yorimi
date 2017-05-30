@@ -1,4 +1,4 @@
-package com.fallingstar.yorimi;
+package com.fallingstar.yorimi.ListView;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.fallingstar.yorimi.Helper.Alarm.AlarmHelper;
 import com.fallingstar.yorimi.Helper.Calculation.CalculationHelper;
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
+import com.fallingstar.yorimi.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Jiran on 2017-04-27.

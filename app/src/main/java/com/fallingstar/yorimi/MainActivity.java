@@ -1,6 +1,9 @@
 package com.fallingstar.yorimi;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -9,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
+import com.fallingstar.yorimi.ListView.ListViewAdapter;
 
 public class MainActivity extends AppCompatActivity {
     /*
@@ -31,12 +36,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ListViewClickLIstener listViewClickLIstener = new ListViewClickLIstener();
+
         final Context mainAppContext = getApplicationContext();
 
         yoribi = new DatabaseHelper(mainAppContext);
         listview = (ListView) findViewById(R.id.listview);
         bNavView = (BottomNavigationView) findViewById(R.id.bottomNav);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
+
+        listview.setOnItemLongClickListener(listViewClickLIstener);
 
         initListView();
         initListWithSQLData();
@@ -96,17 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(marketAddIntent, 3);
             }
         });
-
-//        /*
-//        TODO: Test, should be deleted
-//         */
-//        fBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                yoribi.delete(1+1);
-//                initListWithSQLData();
-//            }
-//        });
     }
 
     /*
@@ -139,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     /*
     purpose : Add the rule with only main rule,
                 to custom listView that represent all of markets user added.
@@ -161,4 +158,30 @@ public class MainActivity extends AppCompatActivity {
     public static DatabaseHelper getYoribi(){
         return yoribi;
     }
+
+    private class ListViewClickLIstener extends Activity implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MainActivity.this);
+            alert_confirm.setMessage("해당 규칙을 삭제 할까요?").setCancelable(false).setPositiveButton("확인",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            yoribi.delete(position+1);
+                            initListWithSQLData();
+                        }
+                    }).setNegativeButton("취소",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 'No'
+                        }
+                    });
+            AlertDialog alert = alert_confirm.create();
+            alert.show();
+
+            return true;
+        }
+    }
+
 }

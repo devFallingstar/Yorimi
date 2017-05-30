@@ -99,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mDB = this.getWritableDatabase();
         mDB.execSQL("BEGIN TRANSACTION;");
         mDB.execSQL("CREATE TABLE YORIBI_NEW (id INTEGER PRIMARY KEY NOT NULL, title TEXT, mainRuleTime INTEGER, mainRulePrice INTEGER, optRule BOOL, optRuleTime INTEGER, optRulePrice INTEGER, alarm INTEGER, alarmSet BOOL);");
-        mDB.execSQL("INSERT INTO YORIBI_NEW(title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm) SELECT title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm, alarmSet FROM YORIBI");
+        mDB.execSQL("INSERT INTO YORIBI_NEW(title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm, alarmSet) SELECT title, mainRuleTime, mainRulePrice, optRule, optRuleTime, optRulePrice, alarm, alarmSet FROM YORIBI");
         mDB.execSQL("DROP TABLE YORIBI");
         mDB.execSQL("ALTER TABLE YORIBI_NEW RENAME TO YORIBI");
         mDB.execSQL("COMMIT;");
