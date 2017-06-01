@@ -1,17 +1,12 @@
 <component name="libraryTable">
   <library name="support-vector-drawable-25.3.1">
     <CLASSES>
-<<<<<<< HEAD
-      <root url="jar://$USER_HOME$/.android/build-cache/bc60e463e865c61593d9a51cb4add2b4eace643c/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/bc60e463e865c61593d9a51cb4add2b4eace643c/output/res" />
-=======
       <root url="jar://$USER_HOME$/.android/build-cache/6ff64fb1de01624791b1398133a971f67959f097/output/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.android/build-cache/6ff64fb1de01624791b1398133a971f67959f097/output/res" />
->>>>>>> 50f522c... Add ListView for main_activity
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/25.3.1/support-vector-drawable-25.3.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/AppData/Local/Android/sdk/extras/android/m2repository/com/android/support/support-vector-drawable/25.3.1/support-vector-drawable-25.3.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

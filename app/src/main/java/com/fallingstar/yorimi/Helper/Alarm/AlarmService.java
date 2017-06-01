@@ -83,7 +83,7 @@ public class AlarmService extends Service {
             noti = new Notification.Builder(getApplicationContext())
                     .setContentTitle(ruleTitle)
                     .setContentText("경과 시간 : "+elapsedMin + "분, 약 "+cost+"원")
-                    .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                    .setSmallIcon(R.drawable.yorimi)
                     .setTicker("약 "+cost+"원")
                     .setContentIntent(pIntent)
                     .build();
@@ -128,7 +128,7 @@ public class AlarmService extends Service {
                 if (min <  Integer.parseInt(db.getMainRuleTime(ruleID+1))){
                     return originCost;
                 }else{
-                    return originCost + calculateOptCost(min-originOptTime);
+                    return originCost + calculateOptCost(min-originMainTime);
                 }
             }
 
