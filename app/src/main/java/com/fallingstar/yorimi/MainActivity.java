@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private ListView listview;
     private ListViewAdapter adapter;
     private FloatingActionButton fBtn;
-    private BottomNavigationView bNavView;
     private static DatabaseHelper yoribi;
 
     /*
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         yoribi = new DatabaseHelper(mainAppContext);
         listview = (ListView) findViewById(R.id.listview);
-        bNavView = (BottomNavigationView) findViewById(R.id.bottomNav);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
 
         listview.setOnItemLongClickListener(listViewClickLIstener);
@@ -78,23 +76,6 @@ public class MainActivity extends AppCompatActivity {
     purpose : Initiate all widgets that should contain listener.
     */
     private void initWidgets() {
-
-        /*
-        Segments changing(Tabbar method).
-         */
-        bNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.navigation_home:
-                        return true;
-                    case R.id.navigation_dashboard:
-                        return true;
-                }
-                return false;
-            }
-        });
-
         /*
         Floating button with MarketAddActivity intent.
          */

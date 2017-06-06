@@ -9,23 +9,19 @@
         android:roundIcon="@drawable/yorimi"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-        </activity>
-
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MarketAddActivity" />
         <activity android:name=".RuleAddActivity.MainRuleAddActivity" />
         <activity android:name=".RuleAddActivity.OptionalRuleAddActivity" />
@@ -45,7 +41,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".Helper.Alarm.ServiceThread"></activity>
+        <activity android:name=".Helper.Alarm.ServiceThread" />
+        <activity android:name=".VIewpagerActivity"></activity>
     </application>
 
 </manifest>
