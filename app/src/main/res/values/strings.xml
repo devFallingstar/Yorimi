@@ -3,8 +3,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Markets</string>
     <string name="title_info">Info</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="name_hint">가게 이름을 입력하세요</string>
     <string name="ThemeColor">#002062</string>
     <string name="feeInit">초기 시간까지 요금제</string>

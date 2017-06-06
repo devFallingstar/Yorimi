@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.fallingstar.yorimi.Helper.Calculation.CalculationHelper;
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
-import com.fallingstar.yorimi.MainActivity;
 import com.fallingstar.yorimi.R;
+import com.fallingstar.yorimi.ViewActivity;
 
 /*
 purpose : Class for Alarm System Service that receive message from AlarmReceiver and start the command.
@@ -30,7 +30,7 @@ public class AlarmService extends Service {
     private NotificationManager notiManager;
     private Notification noti;
     private ServiceThread thread;
-    private DatabaseHelper db = MainActivity.getYoribi();
+    private DatabaseHelper db = ViewActivity.getYoribi();
     private CalculationHelper myCalcHelper = new CalculationHelper();
 
     @Override
@@ -74,7 +74,7 @@ public class AlarmService extends Service {
             super.handleMessage(msg);
 
             int cost, elapsedMin;
-            Intent intent = new Intent(AlarmService.this, MainActivity.class);
+            Intent intent = new Intent(AlarmService.this, ViewActivity.class);
             PendingIntent pIntent = PendingIntent.getActivity(AlarmService.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             elapsedMin = calculateElapsedMinMinutes();
@@ -98,9 +98,9 @@ public class AlarmService extends Service {
             notiManager.notify(ruleID, noti);
 
             Toast.makeText(AlarmService.this, "경과 시간 : "+elapsedMin + "\n" +
-                    "요금 : 약 "+cost+"원"+ruleID, Toast.LENGTH_SHORT).show();
+                    "요금 : 약 "+cost+"원", Toast.LENGTH_SHORT).show();
             Log.d("CHECK", "경과 시간 : "+elapsedMin + "\n" +
-                    "요금 : 약 "+cost+"원");
+                    "요금 : 약 "+cost+"원 "+ruleID);
         }
 
         private int calculateElapsedMinMinutes(){

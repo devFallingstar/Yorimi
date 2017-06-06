@@ -133,7 +133,7 @@ public class ListViewAdapter extends BaseAdapter {
 
                         descTextView.post(timerAction);
                     }
-                }, 10000);
+                }, 5000);
 
                     DBHelper.updateState(position+1, false);
                     Log.d("alarmSet BOOL", "alaramSet update value "+ false);

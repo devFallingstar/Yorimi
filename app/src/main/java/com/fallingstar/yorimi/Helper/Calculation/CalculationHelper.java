@@ -1,9 +1,7 @@
 package com.fallingstar.yorimi.Helper.Calculation;
 
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
-import com.fallingstar.yorimi.MainActivity;
-
-import java.util.ArrayList;
+import com.fallingstar.yorimi.ViewActivity;
 
 /**
  * Created by stard on 2017-05-16.
@@ -23,8 +21,10 @@ public class CalculationHelper {
      */
     public CalculationHelper(){
         if (!isMade){
-            db = MainActivity.getYoribi();
+            db = ViewActivity.getYoribi();
+
             size = db.getCount();
+
             startMillis = new long[size];
             isMade = true;
         }
