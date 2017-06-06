@@ -3,149 +3,158 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="이름"
-        android:textColor="@android:color/black"
-        android:textSize="14pt"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/txtName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="@string/name_hint" />
-
     <View
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_margin="5dp"
-        android:background="#666666" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="요금제"
-        android:textColor="@android:color/black"
-        android:textSize="14pt"
-        android:textStyle="bold" />
-
+        android:layout_height="40dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/lblMainRule"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="#DDDDDD"
-            android:hint="필수 요금제 등록"
-            android:padding="5dp"
-            android:textAlignment="center"
-            android:textSize="18dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/lblOptionalRule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="#DDDDDD"
-            android:hint="추가 요금제 등록"
-            android:onClick=""
-            android:padding="5dp"
-            android:textAlignment="center"
-            android:textSize="18dp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_margin="5dp"
-        android:background="#666666"></View>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="수시 알림"
-        android:textColor="@android:color/black"
-        android:textSize="14pt"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/notiRadGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/notiRad0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="없음" />
-
-        <RadioButton
-            android:id="@+id/notiRad1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="5분" />
-
-        <RadioButton
-            android:id="@+id/notiRad2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="10분" />
-
-        <RadioButton
-            android:id="@+id/notiRad3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="30분" />
-    </RadioGroup>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_margin="5dp"
-        android:background="#666666"></View>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/SubmitBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark"
-            android:padding="20dp"
-            android:text="완료"
-            android:textColor="@android:color/white"
-            android:textSize="10pt"
+            android:text="이름"
+            android:textColor="@android:color/black"
+            android:textSize="14pt"
             android:textStyle="bold" />
-    </RelativeLayout>
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/name_hint" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_margin="5dp"
+            android:background="#666666" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="요금제"
+            android:textColor="@android:color/black"
+            android:textSize="14pt"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/lblMainRule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#DDDDDD"
+                android:hint="필수 요금제 등록"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/lblOptionalRule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#DDDDDD"
+                android:hint="추가 요금제 등록"
+                android:onClick=""
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textSize="18dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_margin="5dp"
+            android:background="#666666"></View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="수시 알림"
+            android:textColor="@android:color/black"
+            android:textSize="14pt"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/notiRadGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/notiRad0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="없음" />
+
+            <RadioButton
+                android:id="@+id/notiRad1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="5분" />
+
+            <RadioButton
+                android:id="@+id/notiRad2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="10분" />
+
+            <RadioButton
+                android:id="@+id/notiRad3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="30분" />
+        </RadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_margin="5dp"
+            android:background="#666666"></View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/SubmitBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimaryDark"
+                android:padding="20dp"
+                android:text="완료"
+                android:textColor="@android:color/white"
+                android:textSize="10pt"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+    
+
 
 </LinearLayout>

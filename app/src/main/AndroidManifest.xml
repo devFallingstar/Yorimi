@@ -44,8 +44,6 @@
                 <action android:name="com.fallingstar.yorimi.ALARM_START" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".Helper.Alarm.ServiceThread"></activity>
     </application>
 
 </manifest>

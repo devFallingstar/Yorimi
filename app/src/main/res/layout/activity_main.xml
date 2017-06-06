@@ -2,11 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.fallingstar.yorimi.MainActivity">
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/content"
@@ -41,13 +39,5 @@
             app:srcCompat="@mipmap/add"
             tools:ignore="RtlHardcoded" />
     </FrameLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottomNav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#002060"
-        app:menu="@menu/navigation" />
 
 </LinearLayout>
