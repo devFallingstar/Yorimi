@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Jiran on 2017-05-08.
@@ -156,6 +157,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getInt(6) + "\n";
         }
         closeDB();
+
+        return result;
+    }
+
+    public int getID(String title)
+    {
+        mDB = this.getReadableDatabase();
+
+        int result;
+
+        Cursor cursor = select("SELECT DISTINCT id FROM YORIBI WHERE title = \""+title+"\";");
+        cursor.moveToFirst();
+
+        result = cursor.getInt(0);
+        closeDB();
+
+        Log.d("getID", "Title: "+title+" ID: "+result);
 
         return result;
     }

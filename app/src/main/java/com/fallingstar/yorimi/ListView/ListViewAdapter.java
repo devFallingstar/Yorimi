@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fallingstar.yorimi.Helper.Alarm.AlarmHelper;
 import com.fallingstar.yorimi.Helper.Calculation.CalculationHelper;
@@ -15,6 +16,8 @@ import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 import com.fallingstar.yorimi.R;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Jiran on 2017-04-27.
@@ -28,6 +31,8 @@ public class ListViewAdapter extends BaseAdapter {
     private DatabaseHelper DBHelper;
     private Context mainContext;
     public ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+
+    private CalculationHelper CalcHelper = new CalculationHelper();
 
     /*
     purpose : Initiator for ListViewAdapter
@@ -62,8 +67,8 @@ public class ListViewAdapter extends BaseAdapter {
         /*
          Get reference from View(that inflate from layout.listview_item).
           */
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
-        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2);
+        final TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
+        final TextView descTextView = (TextView) convertView.findViewById(R.id.textView2);
         Button button = (Button) convertView.findViewById(R.id.button2);
 
         /*
@@ -80,19 +85,56 @@ public class ListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String str = ((Button) v).getText().toString();
+                int delay = 0;
+                int period = 6*10000;
+                final Timer timerUpdate = new Timer();
+
                 if (str.equalsIgnoreCase("Start")) {
                     /*
                     TODO : add action for alarm starting trigger
                      */
                     ((Button) v).setText("End");
+
+                    timerUpdate.scheduleAtFixedRate(new TimerTask() {
+                        public void run() {
+                            final Runnable timerAction = new Runnable() {
+                                @Override
+                                public void run() {
+                                    int time = calculateElapsedMinMinutes(DBHelper.getID(titleTextView.getText().toString()));
+                                    int cost = calculateCost(DBHelper.getID(titleTextView.getText().toString()), time);
+                                    descTextView.setText("경과 시간 : "+ time + "분, 약 "+ cost +"원");
+                                }
+                            };
+
+                            descTextView.post(timerAction);
+                        }
+                    }, delay, period);
+
                     DBHelper.updateState(position+1, true);
                     Log.d("alarmSet BOOL", "alaramSet update value "+ true);
                     setAlarm(position+1);
-                } else if (str.equalsIgnoreCase("end")) {
+                } else if(str.equalsIgnoreCase("End")) {
                     /*
                     TODO : add action for alarm ending trigger
                      */
-                    ((Button) v).setText("Start");
+                ((Button) v).setText("Start");
+
+                    timerUpdate.cancel();
+
+                    final Timer reset = new Timer();
+                    reset.schedule(new TimerTask() {
+                    public void run() {
+                        final Runnable timerAction = new Runnable() {
+                            @Override
+                            public void run() {
+                                descTextView.setText(listViewItem.getDesc());
+                            }
+                        };
+
+                        descTextView.post(timerAction);
+                    }
+                }, 10000);
+
                     DBHelper.updateState(position+1, false);
                     Log.d("alarmSet BOOL", "alaramSet update value "+ false);
                     removeAlarm(position+1);
@@ -194,5 +236,50 @@ public class ListViewAdapter extends BaseAdapter {
                     ,DBHelper.getMainRulePrice(DBIdx));
             helper.unRegisterAlarm(mainContext, DBIdx);
         }
+    }
+
+    private int calculateElapsedMinMinutes(int ruleID){
+        long timeDiff;
+        int min;
+
+        timeDiff = CalcHelper.getDiffFromPrevTimeWithMilliSec(System.currentTimeMillis(), ruleID-1);
+        min = CalcHelper.getMinuteFromMilliSec(timeDiff);
+
+        return min;
+    }
+
+    private int calculateCost(int ruleID, int min){
+        int originCost = Integer.parseInt(DBHelper.getMainRulePrice(ruleID));
+        int originMainTime = Integer.parseInt(DBHelper.getMainRuleTime(ruleID));
+        int originOptTime = Integer.parseInt(DBHelper.getoptRuleTime(ruleID));
+
+        if (DBHelper.getoptRuleBool(ruleID)==0){
+            if (min < Integer.parseInt(DBHelper.getMainRuleTime(ruleID))){
+                return originCost;
+            }else{
+                return originCost + calculateMainCost(ruleID, min-originMainTime);
+            }
+        }else {
+            if (min <  Integer.parseInt(DBHelper.getMainRuleTime(ruleID))){
+                return originCost;
+            }else{
+                return originCost + calculateOptCost(ruleID, min-originMainTime);
+            }
+        }
+
+    }
+    private int calculateMainCost(int ruleID, int min){
+        int costPerMin, totalCost;
+        costPerMin = Math.round((float)CalcHelper.getCostPerMinute(Integer.parseInt(DBHelper.getMainRuleTime(ruleID)) , Integer.parseInt(DBHelper.getMainRulePrice(ruleID))));
+
+        totalCost = costPerMin*min;
+        return totalCost;
+    }
+    private int calculateOptCost(int ruleID, int min){
+        int costPerMin, totalCost;
+        costPerMin = Math.round((float)CalcHelper.getCostPerMinute(Integer.parseInt(DBHelper.getoptRuleTime(ruleID)) , Integer.parseInt(DBHelper.getoptRulePrice(ruleID))));
+
+        totalCost = costPerMin*min;
+        return totalCost;
     }
 }

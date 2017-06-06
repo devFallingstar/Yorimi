@@ -64,7 +64,7 @@ public class CalculationHelper {
   purpose : Class that set current time and help to calculate difference between two times
    */
     public long getDiffFromPrevTimeWithMilliSec(long prevTime, int idx){
-        long currentTime = startMillis[idx];
+            long currentTime = startMillis[idx];
         return getDiffOfTwoMilliSec(prevTime, currentTime);
     }
     /*
