@@ -65,6 +65,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         closeDB();
     }
 
+    public void update(String title, int mainT, int mainP, int optB, int optT, int optP, int alarm, Boolean alarmS, int id)
+    {
+        mDB = this.getWritableDatabase();
+        int state;
+        if(alarmS)
+            state = 1;
+        else
+            state = 0;
+        mDB.execSQL("UPDATE YORIBI SET title = \'"+title+"\', mainRuleTime = "+mainT+", mainRulePrice = "+mainP+", optRule = "+optB+", optRuleTime = "+optT+", optRulePrice = "+optP+", alarm = "+alarm+", alarmSet = "+state+" WHERE id="+id+";");
+        closeDB();
+    }
+
     public void updateState(int id, Boolean state)
     {
         mDB = this.getWritableDatabase();

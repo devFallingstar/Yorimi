@@ -27,7 +27,7 @@ public class ListViewAdapter extends BaseAdapter {
     private AlarmHelper helper;
     private DatabaseHelper DBHelper;
     private Context mainContext;
-    private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+    public ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
 
     /*
     purpose : Initiator for ListViewAdapter
@@ -132,6 +132,20 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
+    public void modifyItem(int pos, String title, String desc, Boolean state){
+        ListViewItem item = listViewItemList.get(pos);
+
+        item.setTitle(title);
+        item.setDesc(desc);
+
+        Log.d("alarmSet BOOL", "alaramSet value "+ state);
+
+        if(state)
+            item.setButtonStr("End");
+        else
+            item.setButtonStr("Start");
+    }
+
     /*
     purpose : Set alarm by using DB Index (index of collection view postion + 1) to ID value.
      */
@@ -139,7 +153,6 @@ public class ListViewAdapter extends BaseAdapter {
         CalculationHelper myCalcHelper = new CalculationHelper();
         int DBIdx = _DBIdx;
         int delay = Integer.parseInt(DBHelper.getPushAlarm(DBIdx));
-//        int delay = 1; //for test
 
         if (DBHelper.getoptRuleBool(DBIdx)==1){ //If there's option rule,
             helper = new AlarmHelper(

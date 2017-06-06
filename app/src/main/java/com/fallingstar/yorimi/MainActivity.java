@@ -13,19 +13,25 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.fallingstar.yorimi.Helper.Alarm.AlarmHelper;
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 import com.fallingstar.yorimi.ListView.ListViewAdapter;
+import com.fallingstar.yorimi.ListView.ListViewItem;
 
 public class MainActivity extends AppCompatActivity {
     /*
     Define variables.
      */
+    private int MODIFY_REQ = 1000;
+    private int NEW_REQ = 9999;
     private ListView listview;
     private ListViewAdapter adapter;
     private FloatingActionButton fBtn;
     private static DatabaseHelper yoribi;
+    private Context mainAppContext;
 
     /*
     purpose : start main application activity and init.
@@ -37,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         ListViewClickLIstener listViewClickLIstener = new ListViewClickLIstener();
 
-        final Context mainAppContext = getApplicationContext();
+        mainAppContext = MainActivity.this;
 
-        yoribi = new DatabaseHelper(mainAppContext);
+        yoribi = new DatabaseHelper(getApplicationContext());
         listview = (ListView) findViewById(R.id.listview);
         fBtn = (FloatingActionButton) findViewById(R.id.addMarketBtn);
 
@@ -83,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
-                startActivityForResult(marketAddIntent, 3);
+                marketAddIntent.putExtra("REQ_id", NEW_REQ);
+                startActivityForResult(marketAddIntent, NEW_REQ);
             }
         });
     }
@@ -99,22 +106,44 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case RESULT_OK:
-                Bundle mainBundle = data.getExtras();
-                if (mainBundle.getBoolean("isMainRuleAdditional")) {
-                    Log.d("TEST", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
+        if (requestCode == NEW_REQ){
+            switch (resultCode) {
+                case RESULT_OK:
+                    Bundle mainBundle = data.getExtras();
+                    if (mainBundle.getBoolean("isMainRuleAdditional")) {
+                        Log.d("TEST", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
 
-                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), mainBundle.getBoolean("alarmSet"));
-                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
-                } else {
-                    setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getBoolean("alarmSet"));
-                    yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
-                }
-                Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
-                break;
-            default:
-                break;
+                        setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), mainBundle.getBoolean("alarmSet"));
+                        yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
+                    } else {
+                        setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getBoolean("alarmSet"));
+                        yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
+                    }
+                    Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
+                    break;
+                default:
+                    break;
+            }
+        }else if (requestCode >= MODIFY_REQ){
+            switch (resultCode) {
+                case RESULT_OK:
+                    Bundle mainBundle = data.getExtras();
+                    if (mainBundle.getBoolean("isMainRuleAdditional")) {
+                        Log.d("TEST MODIFY", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
+
+                        modifyValues(requestCode, data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), mainBundle.getBoolean("alarmSet"));
+                        yoribi.update(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"), requestCode-MODIFY_REQ+1);
+                    } else {
+                        Log.d("TEST MODIFY", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
+
+                        modifyValues(requestCode, data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getBoolean("alarmSet"));
+                        yoribi.update(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"), requestCode-MODIFY_REQ+1);
+                    }
+                    Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -126,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.addItem(name, "매 " + time + "분 마다 " + cost + "원", state);
         listview.setAdapter(adapter);
     }
-
     /*
     purpose : Add the rule with main rule and optional rule,
                 to custom listView that represent all of markets user added.
@@ -136,6 +164,50 @@ public class MainActivity extends AppCompatActivity {
         listview.setAdapter(adapter);
     }
 
+    private void modifyValues(int requestCode, String name, int time, int cost, Boolean state) {
+        adapter.modifyItem(requestCode-MODIFY_REQ, name, "매 " + time + "분 마다 " + cost + "원", state);
+        listview.setAdapter(adapter);
+    }
+    private void modifyValues(int requestCode, String name, int mainTime, int maincost, int optTime, int optCost, Boolean state) {
+        adapter.modifyItem(requestCode-MODIFY_REQ, name, "첫 " + mainTime + "분 까지 " + maincost + "원, 매 " + optTime + "분 마다 " + optCost + "원", state);
+        listview.setAdapter(adapter);
+    }
+
+    private void modifyItem(int position){
+        int DBIdx = position+1;
+        Intent marketAddIntent = new Intent(MainActivity.this, MarketAddActivity.class);
+        marketAddIntent.putExtra("REQ_id", MODIFY_REQ);
+        Bundle dataBundle = new Bundle();
+        dataBundle.putString("TITLE_data", yoribi.getTitle(DBIdx));
+        dataBundle.putString("MAINTIME_data", yoribi.getMainRuleTime(DBIdx));
+        dataBundle.putString("MAINCOST_data", yoribi.getMainRulePrice(DBIdx));
+        if (yoribi.getoptRuleBool(DBIdx)==1){
+            dataBundle.putInt("OPTBOOL", 1);
+            dataBundle.putString("OPTTIME_data", yoribi.getoptRuleTime(DBIdx));
+            dataBundle.putString("OPTCOST_data", yoribi.getoptRulePrice(DBIdx));
+        }else{
+            dataBundle.putInt("OPTBOOL", 0);
+        }
+        dataBundle.putString("ALARMDELAY", yoribi.getPushAlarm(DBIdx));
+        marketAddIntent.putExtras(dataBundle);
+
+        Log.d("TEST CONT", marketAddIntent.toString());
+
+        startActivityForResult(marketAddIntent, MODIFY_REQ+position);
+    }
+
+    private void deleteItem(int position){
+        int DBIdx = position+1;
+        AlarmHelper helper = new AlarmHelper( //If there's no option rule,
+                yoribi.getTitle(DBIdx)
+                ,yoribi.getMainRuleTime(DBIdx)
+                ,yoribi.getMainRulePrice(DBIdx));
+        helper.unRegisterAlarm(MainActivity.this, DBIdx);
+
+        yoribi.delete(position+1);
+        initListWithSQLData();
+    }
+
     public static DatabaseHelper getYoribi(){
         return yoribi;
     }
@@ -143,19 +215,29 @@ public class MainActivity extends AppCompatActivity {
     private class ListViewClickLIstener extends Activity implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MainActivity.this);
-            alert_confirm.setMessage("해당 규칙을 삭제 할까요?").setCancelable(false).setPositiveButton("확인",
+            final ArrayAdapter<String> alertAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.select_dialog_item);
+            alertAdapter.add("편집");
+            alertAdapter.add("삭제");
+
+            final AlertDialog.Builder alert_confirm = new AlertDialog.Builder(MainActivity.this);
+            alert_confirm.setTitle("해당 규칙을 어떻게 할까요?");
+            alert_confirm.setAdapter(alertAdapter, new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (which==0){
+                        //Modify
+                        modifyItem(position);
+                    }else if (which==1){
+                        //Delete
+                        deleteItem(position);
+                    }
+                }
+            });
+            alert_confirm.setNegativeButton("취소",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            yoribi.delete(position+1);
-                            initListWithSQLData();
-                        }
-                    }).setNegativeButton("취소",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // 'No'
+                            dialog.dismiss();
                         }
                     });
             AlertDialog alert = alert_confirm.create();

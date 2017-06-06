@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,8 @@ public class MarketAddActivity extends AppCompatActivity {
     /*
     Define variables
      */
+    private int MODIFY_REQ = 1000;
+    private int NEW_REQ = 9999;
     private EditText titleTxt;
     private TextView lblMainRule, lblOptionalRule;
     private Button SubmitBtn;
@@ -36,7 +39,6 @@ public class MarketAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_add);
 
-
         titleTxt = (EditText) findViewById(R.id.txtName);
         lblMainRule = (TextView) findViewById(R.id.lblMainRule);
         lblOptionalRule = (TextView) findViewById(R.id.lblOptionalRule);
@@ -44,6 +46,63 @@ public class MarketAddActivity extends AppCompatActivity {
         SubmitBtn = (Button) findViewById(R.id.SubmitBtn);
 
         initWidgets();
+        setUpWidgetsWithData();
+    }
+
+    private void setUpWidgetsWithData() {
+        Intent currentIntent = getIntent();
+
+        Log.d("REQ TEST", (currentIntent.getIntExtra("REQ_id", NEW_REQ)+""));
+        if (currentIntent.getIntExtra("REQ_id", NEW_REQ) == MODIFY_REQ){
+            String mainRuleTime, mainRuleCost;
+            String optRuleTime, optRuleCost;
+            String alarmDelay;
+            int alarmDelayInt;
+            Bundle dataBundle = currentIntent.getExtras();
+
+            ruleName = dataBundle.getString("TITLE_data");
+            titleTxt.setText(ruleName);
+
+            mainRuleTime = dataBundle.getString("MAINTIME_data");
+            mainRuleCost = dataBundle.getString("MAINCOST_data");
+            mainBundle.putString("ruleTime", mainRuleTime);
+            mainBundle.putString("ruleCost", mainRuleCost);
+
+            if (dataBundle.getInt("OPTBOOL")==1){
+                isMainRuleAdditional = false;
+                lblMainRule.setText("첫 " + mainRuleTime + "분까지 " + mainRuleCost + "원");
+                optRuleTime = dataBundle.getString("OPTTIME_data");
+                optRuleCost = dataBundle.getString("OPTCOST_data");
+                lblOptionalRule.setText(optRuleTime + "분마다 " + optRuleCost + "원");
+                mainBundle.putString("optRuleTime", optRuleTime);
+                mainBundle.putString("optRuleCost", optRuleCost);
+            }else{
+                isMainRuleAdditional = true;
+                lblMainRule.setText(mainRuleTime + "분마다 " + mainRuleCost + "원");
+                lblOptionalRule.setEnabled(false);
+                lblOptionalRule.setText("");
+                lblOptionalRule.setHint("필수 요금제가 이미 추가 요금제입니다");
+            }
+            alarmDelay = dataBundle.getString("ALARMDELAY");
+            alarmDelayInt = Integer.parseInt(alarmDelay);
+            switch (alarmDelayInt){
+                case 1:
+                    notiRadGroup.check(R.id.notiRad0);
+                    break;
+                case 5:
+                    notiRadGroup.check(R.id.notiRad1);
+                    break;
+                case 10:
+                    notiRadGroup.check(R.id.notiRad2);
+                    break;
+                case 30:
+                    notiRadGroup.check(R.id.notiRad3);
+                    break;
+                default:
+                    notiRadGroup.check(R.id.notiRad1);
+                    break;
+            }
+        }
     }
 
     /*
@@ -127,7 +186,7 @@ public class MarketAddActivity extends AppCompatActivity {
         */
         switch (notiRadGroup.getCheckedRadioButtonId()) {
             case R.id.notiRad0:
-                notiDelay = 0;
+                notiDelay = 1;
                 break;
             case R.id.notiRad1:
                 notiDelay = 5;
