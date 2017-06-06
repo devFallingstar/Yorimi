@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/yorimi"
+        android:icon="@mipmap/ic_yorimi"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/yorimi"
+        android:roundIcon="@mipmap/ic_yorimi_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 

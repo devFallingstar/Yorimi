@@ -83,7 +83,7 @@ public class AlarmService extends Service {
             noti = new Notification.Builder(getApplicationContext())
                     .setContentTitle(ruleTitle)
                     .setContentText("경과 시간 : "+elapsedMin + "분, 약 "+cost+"원")
-                    .setSmallIcon(R.drawable.yorimi)
+                    .setSmallIcon(R.mipmap.ic_yorimi)
                     .setTicker("약 "+cost+"원")
                     .setContentIntent(pIntent)
                     .build();

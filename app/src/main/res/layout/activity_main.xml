@@ -36,7 +36,7 @@
             app:elevation="5dp"
             app:fabSize="normal"
             app:rippleColor="@color/colorPrimaryDark"
-            app:srcCompat="@mipmap/add"
+            app:srcCompat="@drawable/ic_add"
             tools:ignore="RtlHardcoded" />
     </FrameLayout>
 
