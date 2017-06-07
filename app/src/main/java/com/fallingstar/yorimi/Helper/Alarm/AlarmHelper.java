@@ -23,6 +23,9 @@ public class AlarmHelper extends Activity {
     int mainCost, mainTime;
     int optCost, optTime;
 
+    public AlarmHelper (){
+    }
+
     public AlarmHelper (String _title, String _mainTime, String _mainCost){
         this.title = _title;
         this.mainTime = Integer.parseInt(_mainTime);

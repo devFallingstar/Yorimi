@@ -6,11 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,7 +16,6 @@ import android.widget.ListView;
 import com.fallingstar.yorimi.Helper.Alarm.AlarmHelper;
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 import com.fallingstar.yorimi.ListView.ListViewAdapter;
-import com.fallingstar.yorimi.ListView.ListViewItem;
 
 public class MainActivity extends AppCompatActivity {
     /*
@@ -31,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private ListViewAdapter adapter;
     private FloatingActionButton fBtn;
     private static DatabaseHelper yoribi;
-    private Context mainAppContext;
 
     /*
     purpose : start main application activity and init.
@@ -42,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ListViewClickLIstener listViewClickLIstener = new ListViewClickLIstener();
-
-        mainAppContext = MainActivity.this;
 
         yoribi = new DatabaseHelper(getApplicationContext());
         listview = (ListView) findViewById(R.id.listview);
@@ -111,15 +104,12 @@ public class MainActivity extends AppCompatActivity {
                 case RESULT_OK:
                     Bundle mainBundle = data.getExtras();
                     if (mainBundle.getBoolean("isMainRuleAdditional")) {
-                        Log.d("TEST", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
-
                         setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), mainBundle.getBoolean("alarmSet"));
                         yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
                     } else {
                         setValues(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getBoolean("alarmSet"));
                         yoribi.insert(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"));
                     }
-                    Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
                     break;
                 default:
                     break;
@@ -129,17 +119,12 @@ public class MainActivity extends AppCompatActivity {
                 case RESULT_OK:
                     Bundle mainBundle = data.getExtras();
                     if (mainBundle.getBoolean("isMainRuleAdditional")) {
-                        Log.d("TEST MODIFY", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
-
                         modifyValues(requestCode, data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), mainBundle.getBoolean("alarmSet"));
                         yoribi.update(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 0, 0, 0, mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"), requestCode-MODIFY_REQ+1);
                     } else {
-                        Log.d("TEST MODIFY", data.getStringExtra("ruleName")+"  "+ Integer.parseInt(mainBundle.getString("ruleTime"))+ " " + Integer.parseInt(mainBundle.getString("ruleCost")));
-
                         modifyValues(requestCode, data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getBoolean("alarmSet"));
                         yoribi.update(data.getStringExtra("ruleName"), Integer.parseInt(mainBundle.getString("ruleTime")), Integer.parseInt(mainBundle.getString("ruleCost")), 1, Integer.parseInt(mainBundle.getString("optRuleTime")), Integer.parseInt(mainBundle.getString("optRuleCost")), mainBundle.getInt("notiDelay"), mainBundle.getBoolean("alarmSet"), requestCode-MODIFY_REQ+1);
                     }
-                    Log.d("Value", mainBundle.getString("ruleTime") + " | " + mainBundle.getString("ruleCost"));
                     break;
                 default:
                     break;
@@ -190,8 +175,6 @@ public class MainActivity extends AppCompatActivity {
         }
         dataBundle.putString("ALARMDELAY", yoribi.getPushAlarm(DBIdx));
         marketAddIntent.putExtras(dataBundle);
-
-        Log.d("TEST CONT", marketAddIntent.toString());
 
         startActivityForResult(marketAddIntent, MODIFY_REQ+position);
     }

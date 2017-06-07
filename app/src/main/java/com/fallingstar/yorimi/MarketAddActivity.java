@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,7 +51,6 @@ public class MarketAddActivity extends AppCompatActivity {
     private void setUpWidgetsWithData() {
         Intent currentIntent = getIntent();
 
-        Log.d("REQ TEST", (currentIntent.getIntExtra("REQ_id", NEW_REQ)+""));
         if (currentIntent.getIntExtra("REQ_id", NEW_REQ) == MODIFY_REQ){
             String mainRuleTime, mainRuleCost;
             String optRuleTime, optRuleCost;

@@ -30,7 +30,8 @@
         <service
             android:name=".Helper.Alarm.AlarmService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:stopWithTask="false"/>
 
         <receiver
             android:name=".Helper.Alarm.AlarmReceiver"

@@ -7,8 +7,8 @@
         <item name="colorPrimaryDark">#002060</item>
         <item name="colorAccent">#00fcbd</item>
 
-        <item name="windowActionBar">true</item>
-        <item name="windowNoTitle">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat">

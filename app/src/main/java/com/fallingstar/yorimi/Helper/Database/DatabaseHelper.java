@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by Jiran on 2017-05-08.
@@ -171,8 +170,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         result = cursor.getInt(0);
         closeDB();
-
-        Log.d("getID", "Title: "+title+" ID: "+result);
 
         return result;
     }

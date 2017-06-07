@@ -1,14 +1,12 @@
 package com.fallingstar.yorimi.ListView;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fallingstar.yorimi.Helper.Alarm.AlarmHelper;
 import com.fallingstar.yorimi.Helper.Calculation.CalculationHelper;
@@ -31,8 +29,7 @@ public class ListViewAdapter extends BaseAdapter {
     private DatabaseHelper DBHelper;
     private Context mainContext;
     public ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
-
-    private CalculationHelper CalcHelper = new CalculationHelper();
+    private CalculationHelper myCalcHelper = new CalculationHelper();
 
     /*
     purpose : Initiator for ListViewAdapter
@@ -79,36 +76,49 @@ public class ListViewAdapter extends BaseAdapter {
          Apply the data to each widget that in listViewItem.
           */
         titleTextView.setText(listViewItem.getTitle());
-        descTextView.setText(listViewItem.getDesc());
+        if (DBHelper.getAlarmSet(position+1))
+        {
+            descTextView.setText(getCostResult(position));
+        }
+        else
+        {
+            if(DBHelper.getoptRuleBool(position+1)==0)
+                descTextView.setText("매 " + DBHelper.getMainRuleTime(position+1) + "분 마다 " + DBHelper.getMainRulePrice(position+1) + "원");
+            else
+                descTextView.setText("첫 " + DBHelper.getMainRuleTime(position+1) + "분 까지 " + DBHelper.getMainRulePrice(position+1) + "원, 매 " + DBHelper.getoptRuleTime(position+1) + "분 마다 " + DBHelper.getoptRulePrice(position+1) + "원");
+        }
+
         descTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(DBHelper.getAlarmSet(DBHelper.getID(titleTextView.getText().toString())))
+                if (DBHelper.getAlarmSet(position+1))
                 {
-                    descTextView.setText(getCostResult(DBHelper.getID(titleTextView.getText().toString())));
+                    descTextView.setText(getCostResult(position));
                 }
                 else
                 {
-                    if(DBHelper.getoptRuleBool(DBHelper.getID(titleTextView.getText().toString()))==0)
-                        descTextView.setText("매 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
+                    if(DBHelper.getoptRuleBool(position+1)==0)
+                        descTextView.setText("매 " + DBHelper.getMainRuleTime(position+1) + "분 마다 " + DBHelper.getMainRulePrice(position+1) + "원");
                     else
-                        descTextView.setText("첫 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 까지 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원, 매 " + DBHelper.getoptRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getoptRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
+                        descTextView.setText("첫 " + DBHelper.getMainRuleTime(position+1) + "분 까지 " + DBHelper.getMainRulePrice(position+1) + "원, 매 " + DBHelper.getoptRuleTime(position+1) + "분 마다 " + DBHelper.getoptRulePrice(position+1) + "원");
                 }
             }
         });
-        button.setText(listViewItem.getButtonStr());
+        if (DBHelper.getAlarmSet(position+1)){
+            button.setText("End");
+        }
+        else{
+            button.setText("Start");
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = ((Button) v).getText().toString();
                 int delay = 0;
-                int period = 6*10000;
+                int period = 60*1000;
                 final Timer timerUpdate = new Timer();
 
                 if (str.equalsIgnoreCase("Start")) {
-                    /*
-                    TODO : add action for alarm starting trigger
-                     */
                     ((Button) v).setText("End");
 
                     timerUpdate.scheduleAtFixedRate(new TimerTask() {
@@ -116,46 +126,37 @@ public class ListViewAdapter extends BaseAdapter {
                             final Runnable timerAction = new Runnable() {
                                 @Override
                                 public void run() {
-                                    descTextView.setText(getCostResult(DBHelper.getID(titleTextView.getText().toString())));
+                                    descTextView.setText(getCostResult(position));
                                 }
                             };
-
                             descTextView.post(timerAction);
                         }
                     }, delay, period);
 
                     DBHelper.updateState(position+1, true);
-                    Log.d("alarmSet BOOL", "alaramSet update value "+ true);
                     setAlarm(position+1);
                 } else if(str.equalsIgnoreCase("End")) {
-                    /*
-                    TODO : add action for alarm ending trigger
-                     */
-                ((Button) v).setText("Start");
+                    ((Button) v).setText("Start");
+                    descTextView.setText(getCostResult(position));
 
                     timerUpdate.cancel();
-
-                    descTextView.setText(getCostResult(DBHelper.getID(titleTextView.getText().toString())));
-
                     final Timer reset = new Timer();
                     reset.schedule(new TimerTask() {
                     public void run() {
                         final Runnable timerAction = new Runnable() {
                             @Override
                             public void run() {
-                                if(DBHelper.getoptRuleBool(DBHelper.getID(titleTextView.getText().toString()))==0)
-                                    descTextView.setText("매 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
+                                if(DBHelper.getoptRuleBool(position+1)==0)
+                                    descTextView.setText("매 " + DBHelper.getMainRuleTime(position+1) + "분 마다 " + DBHelper.getMainRulePrice(position+1) + "원");
                                 else
-                                    descTextView.setText("첫 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 까지 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원, 매 " + DBHelper.getoptRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getoptRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
+                                    descTextView.setText("첫 " + DBHelper.getMainRuleTime(position+1) + "분 까지 " + DBHelper.getMainRulePrice(position+1) + "원, 매 " + DBHelper.getoptRuleTime(position+1) + "분 마다 " + DBHelper.getoptRulePrice(position+1) + "원");
                             }
                         };
-
                         descTextView.post(timerAction);
                     }
-                }, 5000);
+                }, 1000);
 
                     DBHelper.updateState(position+1, false);
-                    Log.d("alarmSet BOOL", "alaramSet update value "+ false);
                     removeAlarm(position+1);
                 }
             }
@@ -183,8 +184,6 @@ public class ListViewAdapter extends BaseAdapter {
         item.setTitle(title);
         item.setDesc(desc);
 
-        Log.d("alarmSet BOOL", "alaramSet value "+ state);
-
         if(state)
             item.setButtonStr("End");
         else
@@ -198,8 +197,6 @@ public class ListViewAdapter extends BaseAdapter {
 
         item.setTitle(title);
         item.setDesc(desc);
-
-        Log.d("alarmSet BOOL", "alaramSet value "+ state);
 
         if(state)
             item.setButtonStr("End");
@@ -232,6 +229,7 @@ public class ListViewAdapter extends BaseAdapter {
         }
         //Save current time for notice the alarm
         myCalcHelper.setStartMillis(System.currentTimeMillis(), DBIdx-1);
+        myCalcHelper.setTimeAndCost(DBIdx-1);
     }
 
     /*
@@ -257,58 +255,47 @@ public class ListViewAdapter extends BaseAdapter {
         }
     }
 
-    private int calculateElapsedMinMinutes(int ruleID){
+    private int calculateElapsedMinMinutes(int idx){
         long timeDiff;
         int min;
 
-        timeDiff = CalcHelper.getDiffFromPrevTimeWithMilliSec(System.currentTimeMillis(), ruleID-1);
-        min = CalcHelper.getMinuteFromMilliSec(timeDiff);
+        timeDiff = myCalcHelper.getDiffFromPrevTimeWithMilliSec(System.currentTimeMillis(), idx);
+        min = myCalcHelper.getMinuteFromMilliSec(timeDiff);
 
         return min;
     }
 
-    private int calculateCost(int ruleID, int min){
-        int originCost = Integer.parseInt(DBHelper.getMainRulePrice(ruleID));
-        int originMainTime = Integer.parseInt(DBHelper.getMainRuleTime(ruleID));
-        int originOptTime = Integer.parseInt(DBHelper.getoptRuleTime(ruleID));
+    private int calculateCost(int idx, int min){
+        int originCost = myCalcHelper.getMainRuleCost(idx);
+        int originMainTime = myCalcHelper.getMainRuleTime(idx);
 
-        if (DBHelper.getoptRuleBool(ruleID)==0){
-            if (min < Integer.parseInt(DBHelper.getMainRuleTime(ruleID))){
+        if (DBHelper.getoptRuleBool(idx+1)==0){
+            if (min < originMainTime){
                 return originCost;
             }else{
-                return originCost + calculateMainCost(ruleID, min-originMainTime);
+                return originCost + calculateMainCost(idx, min-originMainTime);
             }
         }else {
-            if (min <  Integer.parseInt(DBHelper.getMainRuleTime(ruleID))){
+            if (min <  originMainTime){
                 return originCost;
             }else{
-                return originCost + calculateOptCost(ruleID, min-originMainTime);
+                return originCost + calculateOptCost(idx, min-originMainTime);
             }
         }
-
     }
-    private int calculateMainCost(int ruleID, int min){
+    private int calculateMainCost(int idx, int min){
         int costPerMin, totalCost;
-        costPerMin = Math.round((float)CalcHelper.getCostPerMinute(Integer.parseInt(DBHelper.getMainRuleTime(ruleID)) , Integer.parseInt(DBHelper.getMainRulePrice(ruleID))));
+        costPerMin = Math.round((float)myCalcHelper.getCostPerMinute(myCalcHelper.getMainRuleTime(idx), myCalcHelper.getMainRuleCost(idx)));
 
         totalCost = costPerMin*min;
         return totalCost;
     }
-    private int calculateOptCost(int ruleID, int min){
+    private int calculateOptCost(int idx, int min){
         int costPerMin, totalCost;
-        costPerMin = Math.round((float)CalcHelper.getCostPerMinute(Integer.parseInt(DBHelper.getoptRuleTime(ruleID)) , Integer.parseInt(DBHelper.getoptRulePrice(ruleID))));
+        costPerMin = Math.round((float)myCalcHelper.getCostPerMinute(myCalcHelper.getOptRuleTime(idx) , myCalcHelper.getOptRuleCost(idx)));
 
         totalCost = costPerMin*min;
         return totalCost;
-    }
-
-    public String getCostResult(String title)
-    {
-        int time = calculateElapsedMinMinutes(DBHelper.getID(title));
-        int cost = calculateCost(DBHelper.getID(title), time);
-        String result = "경과 시간 : "+ time + "분, 약 "+ cost +"원";
-
-        return result;
     }
 
     public String getCostResult(int id)

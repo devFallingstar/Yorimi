@@ -17,6 +17,8 @@ import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 import com.fallingstar.yorimi.R;
 import com.fallingstar.yorimi.ViewActivity;
 
+import java.util.HashMap;
+
 /*
 purpose : Class for Alarm System Service that receive message from AlarmReceiver and start the command.
  */
@@ -30,7 +32,6 @@ public class AlarmService extends Service {
     private NotificationManager notiManager;
     private Notification noti;
     private ServiceThread thread;
-    private DatabaseHelper db = ViewActivity.getYoribi();
     private CalculationHelper myCalcHelper = new CalculationHelper();
 
     @Override
@@ -53,7 +54,7 @@ public class AlarmService extends Service {
         thread = new ServiceThread(handler);
         thread.start();
 
-        return START_NOT_STICKY;
+        return START_REDELIVER_INTENT;
     }
 
     /*
@@ -96,11 +97,6 @@ public class AlarmService extends Service {
                 noti.visibility = Notification.VISIBILITY_PUBLIC;
             }
             notiManager.notify(ruleID, noti);
-
-            Toast.makeText(AlarmService.this, "경과 시간 : "+elapsedMin + "\n" +
-                    "요금 : 약 "+cost+"원", Toast.LENGTH_SHORT).show();
-            Log.d("CHECK", "경과 시간 : "+elapsedMin + "\n" +
-                    "요금 : 약 "+cost+"원 "+ruleID);
         }
 
         private int calculateElapsedMinMinutes(){
@@ -114,35 +110,33 @@ public class AlarmService extends Service {
         }
 
         private int calculateCost(int min){
-            int originCost = Integer.parseInt(db.getMainRulePrice(ruleID+1));
-            int originMainTime = Integer.parseInt(db.getMainRuleTime(ruleID+1));
-            int originOptTime = Integer.parseInt(db.getoptRuleTime(ruleID+1));
+            int originCost = myCalcHelper.getMainRuleCost(ruleID);
+            int originMainTime = myCalcHelper.getMainRuleTime(ruleID);
 
             if (isOnlyMain){
-                if (min < Integer.parseInt(db.getMainRuleTime(ruleID+1))){
+                if (min < originMainTime){
                     return originCost;
                 }else{
-                    return originCost + calculateMainCost(min-originMainTime);
+                    return originCost + calculateMainCost(ruleID, min-originMainTime);
                 }
             }else {
-                if (min <  Integer.parseInt(db.getMainRuleTime(ruleID+1))){
+                if (min <  originMainTime){
                     return originCost;
                 }else{
-                    return originCost + calculateOptCost(min-originMainTime);
+                    return originCost + calculateOptCost(ruleID, min-originMainTime);
                 }
             }
-
         }
-        private int calculateMainCost(int min){
+        private int calculateMainCost(int idx, int min){
             int costPerMin, totalCost;
-            costPerMin = Math.round((float)myCalcHelper.getCostPerMinute(Integer.parseInt(db.getMainRuleTime(ruleID+1)) , Integer.parseInt(db.getMainRulePrice(ruleID+1))));
+            costPerMin = Math.round((float)myCalcHelper.getCostPerMinute(myCalcHelper.getMainRuleTime(idx), myCalcHelper.getMainRuleCost(idx)));
 
             totalCost = costPerMin*min;
             return totalCost;
         }
-        private int calculateOptCost(int min){
+        private int calculateOptCost(int idx, int min){
             int costPerMin, totalCost;
-            costPerMin = Math.round((float)myCalcHelper.getCostPerMinute(Integer.parseInt(db.getoptRuleTime(ruleID+1)) , Integer.parseInt(db.getoptRulePrice(ruleID+1))));
+            costPerMin = Math.round((float)myCalcHelper.getCostPerMinute(myCalcHelper.getOptRuleTime(idx) , myCalcHelper.getOptRuleCost(idx)));
 
             totalCost = costPerMin*min;
             return totalCost;
