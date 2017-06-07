@@ -9,15 +9,10 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.fallingstar.yorimi.Helper.Calculation.CalculationHelper;
-import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
 import com.fallingstar.yorimi.R;
-import com.fallingstar.yorimi.ViewActivity;
-
-import java.util.HashMap;
+import com.fallingstar.yorimi.MainActivity;
 
 /*
 purpose : Class for Alarm System Service that receive message from AlarmReceiver and start the command.
@@ -75,7 +70,7 @@ public class AlarmService extends Service {
             super.handleMessage(msg);
 
             int cost, elapsedMin;
-            Intent intent = new Intent(AlarmService.this, ViewActivity.class);
+            Intent intent = new Intent(AlarmService.this, MainActivity.class);
             PendingIntent pIntent = PendingIntent.getActivity(AlarmService.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             elapsedMin = calculateElapsedMinMinutes();

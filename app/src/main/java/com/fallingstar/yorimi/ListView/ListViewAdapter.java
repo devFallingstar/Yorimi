@@ -51,7 +51,16 @@ public class ListViewAdapter extends BaseAdapter {
                 that has specific postion value 'position'.
      */
     public View getView(final int position, View convertView, ViewGroup parent) {
+        final int DBIdx = position+1;
+        final String title = DBHelper.getTitle(DBIdx);
+        final int mainTime = Integer.parseInt(DBHelper.getMainRuleTime(DBIdx));
+        final int mainCost = Integer.parseInt(DBHelper.getMainRulePrice(DBIdx));
+        final int optTime = Integer.parseInt(DBHelper.getoptRuleTime(DBIdx));
+        final int optCost = Integer.parseInt(DBHelper.getoptRulePrice(DBIdx));
+        final int optBool = DBHelper.getoptRuleBool(DBIdx);
         final Context context = parent.getContext();
+        final int delay = 0;
+        final int period = 60*1000;
 
         /*
          Get convertView's reference by inflate the layout.listview_time.
@@ -83,9 +92,9 @@ public class ListViewAdapter extends BaseAdapter {
         else
         {
             if(DBHelper.getoptRuleBool(position+1)==0)
-                descTextView.setText("매 " + DBHelper.getMainRuleTime(position+1) + "분 마다 " + DBHelper.getMainRulePrice(position+1) + "원");
+                descTextView.setText("매 " + mainTime + "분 마다 " + mainCost + "원");
             else
-                descTextView.setText("첫 " + DBHelper.getMainRuleTime(position+1) + "분 까지 " + DBHelper.getMainRulePrice(position+1) + "원, 매 " + DBHelper.getoptRuleTime(position+1) + "분 마다 " + DBHelper.getoptRulePrice(position+1) + "원");
+                descTextView.setText("첫 " + mainTime + "분 까지 " + mainCost + "원, 매 " + optTime + "분 마다 " + optCost + "원");
         }
 
         descTextView.setOnClickListener(new View.OnClickListener() {
@@ -98,9 +107,9 @@ public class ListViewAdapter extends BaseAdapter {
                 else
                 {
                     if(DBHelper.getoptRuleBool(position+1)==0)
-                        descTextView.setText("매 " + DBHelper.getMainRuleTime(position+1) + "분 마다 " + DBHelper.getMainRulePrice(position+1) + "원");
+                        descTextView.setText("매 " + mainTime + "분 마다 " + mainCost + "원");
                     else
-                        descTextView.setText("첫 " + DBHelper.getMainRuleTime(position+1) + "분 까지 " + DBHelper.getMainRulePrice(position+1) + "원, 매 " + DBHelper.getoptRuleTime(position+1) + "분 마다 " + DBHelper.getoptRulePrice(position+1) + "원");
+                        descTextView.setText("첫 " + mainTime + "분 까지 " + mainCost + "원, 매 " + optTime + "분 마다 " + optCost + "원");
                 }
             }
         });
@@ -114,8 +123,6 @@ public class ListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String str = ((Button) v).getText().toString();
-                int delay = 0;
-                int period = 60*1000;
                 final Timer timerUpdate = new Timer();
 
                 if (str.equalsIgnoreCase("Start")) {
@@ -133,8 +140,8 @@ public class ListViewAdapter extends BaseAdapter {
                         }
                     }, delay, period);
 
-                    DBHelper.updateState(position+1, true);
-                    setAlarm(position+1);
+                    DBHelper.updateState(DBIdx, true);
+                    setAlarm(DBIdx, title, mainTime+"", mainCost+"", optTime+"", optCost+"", optBool);
                 } else if(str.equalsIgnoreCase("End")) {
                     ((Button) v).setText("Start");
                     descTextView.setText(getCostResult(position));
@@ -146,18 +153,17 @@ public class ListViewAdapter extends BaseAdapter {
                         final Runnable timerAction = new Runnable() {
                             @Override
                             public void run() {
-                                if(DBHelper.getoptRuleBool(position+1)==0)
-                                    descTextView.setText("매 " + DBHelper.getMainRuleTime(position+1) + "분 마다 " + DBHelper.getMainRulePrice(position+1) + "원");
+                                if(DBHelper.getoptRuleBool(DBIdx)==0)
+                                    descTextView.setText("매 " + mainTime + "분 마다 " + mainCost + "원");
                                 else
-                                    descTextView.setText("첫 " + DBHelper.getMainRuleTime(position+1) + "분 까지 " + DBHelper.getMainRulePrice(position+1) + "원, 매 " + DBHelper.getoptRuleTime(position+1) + "분 마다 " + DBHelper.getoptRulePrice(position+1) + "원");
+                                    descTextView.setText("첫 " + mainTime + "분 까지 " + mainCost + "원, 매 " + optTime + "분 마다 " + optCost + "원");
                             }
                         };
                         descTextView.post(timerAction);
                     }
                 }, 1000);
-
-                    DBHelper.updateState(position+1, false);
-                    removeAlarm(position+1);
+                    DBHelper.updateState(DBIdx, false);
+                    removeAlarm(DBIdx, title, mainTime+"", mainCost+"", optTime+"", optCost+"", optBool);
                 }
             }
         });
@@ -207,24 +213,22 @@ public class ListViewAdapter extends BaseAdapter {
     /*
     purpose : Set alarm by using DB Index (index of collection view postion + 1) to ID value.
      */
-    private void setAlarm(int _DBIdx) {
-        CalculationHelper myCalcHelper = new CalculationHelper();
-        int DBIdx = _DBIdx;
+    private void setAlarm(int DBIdx, String title, String mainTime, String mainCost, String optTime, String optCost, int optbool) {
         int delay = Integer.parseInt(DBHelper.getPushAlarm(DBIdx));
 
-        if (DBHelper.getoptRuleBool(DBIdx)==1){ //If there's option rule,
+        if (optbool==1){ //If there's option rule,
             helper = new AlarmHelper(
-                    DBHelper.getTitle(DBIdx)
-                    ,DBHelper.getMainRuleTime(DBIdx)
-                    ,DBHelper.getMainRulePrice(DBIdx)
-                    ,DBHelper.getoptRuleTime(DBIdx)
-                    ,DBHelper.getoptRulePrice(DBIdx));
+                    title
+                    ,mainTime
+                    ,mainCost
+                    ,optTime
+                    ,optCost);
             helper.registerAlarm(mainContext, delay, DBIdx);
         }else{
             helper = new AlarmHelper( //If there's no option rule,
-                    DBHelper.getTitle(DBIdx)
-                    ,DBHelper.getMainRuleTime(DBIdx)
-                    ,DBHelper.getMainRulePrice(DBIdx));
+                    title
+                    ,mainTime
+                    ,mainCost);
             helper.registerAlarm(mainContext, delay, DBIdx);
         }
         //Save current time for notice the alarm
@@ -235,22 +239,20 @@ public class ListViewAdapter extends BaseAdapter {
     /*
     purpose : Cancel and remove alarm by using DB Index (index of collection view postion + 1) to ID value.
      */
-    private void removeAlarm(int _DBIdx) {
-        int DBIdx = _DBIdx;
-
-        if (DBHelper.getoptRuleBool(DBIdx)==1){
+    private void removeAlarm(int DBIdx, String title, String mainTime, String mainCost, String optTime, String optCost, int optbool) {
+        if (optbool==1){
             helper = new AlarmHelper(
-                    DBHelper.getTitle(DBIdx)
-                    ,DBHelper.getMainRuleTime(DBIdx)
-                    ,DBHelper.getMainRulePrice(DBIdx)
-                    ,DBHelper.getoptRuleTime(DBIdx)
-                    ,DBHelper.getoptRulePrice(DBIdx));
+                    title
+                    ,mainTime
+                    ,mainCost
+                    ,optTime
+                    ,optCost);
             helper.unRegisterAlarm(mainContext, DBIdx);
         }else{
-            helper = new AlarmHelper(
-                    DBHelper.getTitle(DBIdx)
-                    ,DBHelper.getMainRuleTime(DBIdx)
-                    ,DBHelper.getMainRulePrice(DBIdx));
+            helper = new AlarmHelper( //If there's no option rule,
+                    title
+                    ,mainTime
+                    ,mainCost);
             helper.unRegisterAlarm(mainContext, DBIdx);
         }
     }

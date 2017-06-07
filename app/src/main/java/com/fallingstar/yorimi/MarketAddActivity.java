@@ -18,8 +18,8 @@ public class MarketAddActivity extends AppCompatActivity {
     /*
     Define variables
      */
-    private int MODIFY_REQ = 1000;
-    private int NEW_REQ = 9999;
+    final private int MODIFY_REQ = 1000;
+    final private int NEW_REQ = 9999;
     private EditText titleTxt;
     private TextView lblMainRule, lblOptionalRule;
     private Button SubmitBtn;
@@ -277,7 +277,7 @@ public class MarketAddActivity extends AppCompatActivity {
                 so disable optional rule label,
                 because we don't have to add duplicated rule for market :)
                  */
-                if (resultCode == (RESULT_OK + 55)) {
+                else if (resultCode == (RESULT_OK + 55)) {
                     isMainRuleAdditional = true;
                     ruleTime = data.getStringExtra("Time");
                     ruleCost = data.getStringExtra("Cost");

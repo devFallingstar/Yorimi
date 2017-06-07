@@ -6,13 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.provider.Settings;
-import android.util.Log;
-
-import com.fallingstar.yorimi.MainActivity;
-
-import static android.content.ContentValues.TAG;
 
 /*
 purpose : Class that help to set and notify the alarm user set in application.
@@ -22,9 +15,6 @@ public class AlarmHelper extends Activity {
     boolean isOnlyMain;
     int mainCost, mainTime;
     int optCost, optTime;
-
-    public AlarmHelper (){
-    }
 
     public AlarmHelper (String _title, String _mainTime, String _mainCost){
         this.title = _title;

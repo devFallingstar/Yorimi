@@ -1,7 +1,7 @@
 package com.fallingstar.yorimi.Helper.Calculation;
 
 import com.fallingstar.yorimi.Helper.Database.DatabaseHelper;
-import com.fallingstar.yorimi.ViewActivity;
+import com.fallingstar.yorimi.MainActivity;
 
 /**
  * Created by stard on 2017-05-16.
@@ -25,7 +25,7 @@ public class CalculationHelper {
      */
     public CalculationHelper(){
         if (!isMade){
-            db = ViewActivity.getYoribi();
+            db = MainActivity.getYoribi();
 
             size = db.getCount();
 
@@ -71,6 +71,7 @@ public class CalculationHelper {
         optCost = new int[size];
         startMillis = new long[size];
         tempMillis[idx] = _millis;
+
         for (i = 0; i < size; i++){
             mainTime[i] = tempMainTime[i];
             mainCost[i] = tempMainCost[i];
@@ -78,12 +79,6 @@ public class CalculationHelper {
             optCost[i] = tempOptCost[i];
             startMillis[i] = tempMillis[i];
         }
-    }
-    /*
-      purpose : Class that help to get milliseconds of alarms.
-       */
-    public long getStartMillis(int idx){
-        return startMillis[idx];
     }
     /*
    purpose : Class that help to calculate cost per minutes.
@@ -103,8 +98,8 @@ public class CalculationHelper {
      */
     public int getMinuteFromMilliSec(long milliSec){
         int sec,min,hour;
-        float totalMinD = 0;
-        int totalMinI = 0;
+        float totalMinD;
+        int totalMinI;
         milliSec=milliSec/1000;
         sec=(int)milliSec%60;
         min=(int)milliSec/60%60;
