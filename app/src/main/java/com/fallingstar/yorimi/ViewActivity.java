@@ -148,10 +148,15 @@ public class ViewActivity extends AppCompatActivity {
         initListView();
         for(int i = 1; i <= count; i++)
         {
-            if(yoribi.getoptRuleBool(i) == 1)
-                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), Integer.parseInt(yoribi.getoptRuleTime(i)), Integer.parseInt(yoribi.getoptRulePrice(i)), yoribi.getAlarmSet(i));
+            if(yoribi.getAlarmSet(i))
+                setValuesUpdate(yoribi.getTitle(i), adapter.getCostResult(i), yoribi.getAlarmSet(i));
             else
-                setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), yoribi.getAlarmSet(i));
+            {
+                if(yoribi.getoptRuleBool(i) == 1)
+                    setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), Integer.parseInt(yoribi.getoptRuleTime(i)), Integer.parseInt(yoribi.getoptRulePrice(i)), yoribi.getAlarmSet(i));
+                else
+                    setValues(yoribi.getTitle(i), Integer.parseInt(yoribi.getMainRuleTime(i)), Integer.parseInt(yoribi.getMainRulePrice(i)), yoribi.getAlarmSet(i));
+            }
         }
     }
 
@@ -232,6 +237,13 @@ public class ViewActivity extends AppCompatActivity {
         adapter.addItem(name, "매 " + time + "분 마다 " + cost + "원", state);
         listview.setAdapter(adapter);
     }
+
+    private void setValuesUpdate(String name, String result, Boolean state)
+    {
+        adapter.addItem(name, result, state);
+        listview.setAdapter(adapter);
+    }
+
     /*
     purpose : Add the rule with main rule and optional rule,
                 to custom listView that represent all of markets user added.

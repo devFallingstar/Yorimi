@@ -80,6 +80,22 @@ public class ListViewAdapter extends BaseAdapter {
           */
         titleTextView.setText(listViewItem.getTitle());
         descTextView.setText(listViewItem.getDesc());
+        descTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(DBHelper.getAlarmSet(DBHelper.getID(titleTextView.getText().toString())))
+                {
+                    descTextView.setText(getCostResult(DBHelper.getID(titleTextView.getText().toString())));
+                }
+                else
+                {
+                    if(DBHelper.getoptRuleBool(DBHelper.getID(titleTextView.getText().toString()))==0)
+                        descTextView.setText("매 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
+                    else
+                        descTextView.setText("첫 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 까지 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원, 매 " + DBHelper.getoptRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getoptRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
+                }
+            }
+        });
         button.setText(listViewItem.getButtonStr());
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +116,7 @@ public class ListViewAdapter extends BaseAdapter {
                             final Runnable timerAction = new Runnable() {
                                 @Override
                                 public void run() {
-                                    int time = calculateElapsedMinMinutes(DBHelper.getID(titleTextView.getText().toString()));
-                                    int cost = calculateCost(DBHelper.getID(titleTextView.getText().toString()), time);
-                                    descTextView.setText("경과 시간 : "+ time + "분, 약 "+ cost +"원");
+                                    descTextView.setText(getCostResult(DBHelper.getID(titleTextView.getText().toString())));
                                 }
                             };
 
@@ -121,13 +135,18 @@ public class ListViewAdapter extends BaseAdapter {
 
                     timerUpdate.cancel();
 
+                    descTextView.setText(getCostResult(DBHelper.getID(titleTextView.getText().toString())));
+
                     final Timer reset = new Timer();
                     reset.schedule(new TimerTask() {
                     public void run() {
                         final Runnable timerAction = new Runnable() {
                             @Override
                             public void run() {
-                                descTextView.setText(listViewItem.getDesc());
+                                if(DBHelper.getoptRuleBool(DBHelper.getID(titleTextView.getText().toString()))==0)
+                                    descTextView.setText("매 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
+                                else
+                                    descTextView.setText("첫 " + DBHelper.getMainRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 까지 " + DBHelper.getMainRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원, 매 " + DBHelper.getoptRuleTime(DBHelper.getID(titleTextView.getText().toString())) + "분 마다 " + DBHelper.getoptRulePrice(DBHelper.getID(titleTextView.getText().toString())) + "원");
                             }
                         };
 
@@ -281,5 +300,23 @@ public class ListViewAdapter extends BaseAdapter {
 
         totalCost = costPerMin*min;
         return totalCost;
+    }
+
+    public String getCostResult(String title)
+    {
+        int time = calculateElapsedMinMinutes(DBHelper.getID(title));
+        int cost = calculateCost(DBHelper.getID(title), time);
+        String result = "경과 시간 : "+ time + "분, 약 "+ cost +"원";
+
+        return result;
+    }
+
+    public String getCostResult(int id)
+    {
+        int time = calculateElapsedMinMinutes(id);
+        int cost = calculateCost(id, time);
+        String result = "경과 시간 : "+ time + "분, 약 "+ cost +"원";
+
+        return result;
     }
 }
