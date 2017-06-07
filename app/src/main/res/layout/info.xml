@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:padding="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/yorimi_s"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="요리미 / Yorimi"
+        android:textStyle="bold"
+        android:textColor="#002060"
+        android:layout_gravity="center"/>
+
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -12,21 +28,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_marginBottom="3dp"
             android:textSize="6pt"
-            android:textColor="#63000000"
+            android:textColor="#014379"
+            android:textStyle="bold"
             android:text="제작" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
+            android:gravity="center"
             android:text="양유성, 정지란, 유지민" />
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000"/>
+            android:layout_width="130dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#00fcbd"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -36,19 +57,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
             android:textSize="6pt"
-            android:textColor="#63000000"
+            android:gravity="center"
+            android:textColor="#014379"
+            android:textStyle="bold"
             android:text="문의사항" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
+            android:gravity="center"
             android:text="stardung86@gmail.com" />
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000"/>
+            android:layout_width="150dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#00fcbd"/>
     </LinearLayout>
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -58,18 +84,84 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
             android:textSize="6pt"
-            android:textColor="#63000000"
-            android:text="github" />
+            android:gravity="center"
+            android:textColor="#014379"
+            android:textStyle="bold"
+            android:text="Github" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:textColor="#000000"
             android:text="https://github.com/devFallingstar/Yorimi" />
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000"/>
+            android:layout_width="260dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#00fcbd"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="3dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:textSize="6pt"
+            android:gravity="center"
+            android:textColor="#014379"
+            android:textStyle="bold"
+            android:text="요리미?" />
+
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="요"
+        android:textStyle="bold"
+        android:textColor="#002060"
+        android:layout_toLeftOf="@+id/text2"/>
+        <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="금 "
+        android:textColor="#014379"
+        android:layout_toLeftOf="@+id/text3"/>
+        <TextView
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="알"
+        android:textColor="#014379"
+        android:layout_centerHorizontal="true"/>
+        <TextView
+        android:id="@+id/text4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="리미"
+        android:layout_toRightOf="@+id/text3"
+        android:textColor="#002060"
+        android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="75dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#00fcbd"/>
+
+    </LinearLayout>
 
 </LinearLayout>
