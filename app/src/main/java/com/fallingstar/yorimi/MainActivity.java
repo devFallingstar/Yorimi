@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     fBtn = (FloatingActionButton) layout.findViewById(R.id.addMarketBtn);
                     listview.setOnItemLongClickListener(new ListViewClickLIstener());
 
+                    initListView();
                     initListWithSQLData();
                     initWidgets();
                     break;
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 1; i <= count; i++)
         {
             if(yoribi.getAlarmSet(i))
-                setValuesUpdate(yoribi.getTitle(i), adapter.getCostResult(i), yoribi.getAlarmSet(i));
+                setValuesUpdate(yoribi.getTitle(i), adapter.getCostResult(i-1), yoribi.getAlarmSet(i));
             else
             {
                 if(yoribi.getoptRuleBool(i) == 1)
@@ -180,22 +181,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bundle mainBundle = data.getExtras();
-        String RName = data.getStringExtra("ruleName");
-        int mainTime = Integer.parseInt(mainBundle.getString("ruleTime"));
-        int mainCost = Integer.parseInt(mainBundle.getString("ruleCost"));
-        int optTime = Integer.parseInt(mainBundle.getString("optRuleTime"));
-        int optCost = Integer.parseInt(mainBundle.getString("optRuleCost"));
-        int delay = mainBundle.getInt("notiDelay");
-        boolean alarmSet = mainBundle.getBoolean("alarmSet");
-
         if (requestCode == NEW_REQ){
             switch (resultCode) {
                 case RESULT_OK:
+                    Bundle mainBundle = data.getExtras();
+                    String RName = data.getStringExtra("ruleName");
+                    int mainTime = Integer.parseInt(mainBundle.getString("ruleTime"));
+                    int mainCost = Integer.parseInt(mainBundle.getString("ruleCost"));
+                    int delay = mainBundle.getInt("notiDelay");
+                    boolean alarmSet = mainBundle.getBoolean("alarmSet");
+
                     if (mainBundle.getBoolean("isMainRuleAdditional")) {
                         setValues(RName, mainTime, mainCost, alarmSet);
                         yoribi.insert(RName, mainTime, mainCost, 0, 0, 0, delay, alarmSet);
                     } else {
+                        int optTime = Integer.parseInt(mainBundle.getString("optRuleTime"));
+                        int optCost = Integer.parseInt(mainBundle.getString("optRuleCost"));
                         setValues(RName, mainTime, mainCost, optTime, optCost, alarmSet);
                         yoribi.insert(RName, mainTime, mainCost, 1, optTime, optCost, delay, alarmSet);
                     }
@@ -206,10 +207,19 @@ public class MainActivity extends AppCompatActivity {
         }else if (requestCode >= MODIFY_REQ){
             switch (resultCode) {
                 case RESULT_OK:
+                    Bundle mainBundle = data.getExtras();
+                    String RName = data.getStringExtra("ruleName");
+                    int mainTime = Integer.parseInt(mainBundle.getString("ruleTime"));
+                    int mainCost = Integer.parseInt(mainBundle.getString("ruleCost"));
+                    int delay = mainBundle.getInt("notiDelay");
+                    boolean alarmSet = mainBundle.getBoolean("alarmSet");
+
                     if (mainBundle.getBoolean("isMainRuleAdditional")) {
                         modifyValues(requestCode, RName, mainTime, mainCost, alarmSet);
                         yoribi.update(RName, mainTime, mainCost, 0, 0, 0, delay, alarmSet, requestCode-MODIFY_REQ+1);
                     } else {
+                        int optTime = Integer.parseInt(mainBundle.getString("optRuleTime"));
+                        int optCost = Integer.parseInt(mainBundle.getString("optRuleCost"));
                         modifyValues(requestCode, RName, mainTime, mainCost, optTime, optCost, alarmSet);
                         yoribi.update(RName, mainTime, mainCost, 1, optTime, optCost, delay, alarmSet, requestCode-MODIFY_REQ+1);
                     }
